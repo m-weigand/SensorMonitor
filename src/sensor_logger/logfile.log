@@ -1,0 +1,183 @@
+Exception in thread date1:
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/threading.py", line 552, in __bootstrap_inner
+    self.run()
+  File "./sensor_logger.py", line 58, in run
+    self._get_data()
+  File "./sensor_logger.py", line 74, in _get_data
+    self.get_reading()
+  File "./sensor_logger.py", line 40, in get_reading
+    self.session.commit()
+  File "/usr/lib/python2.7/dist-packages/sqlalchemy/orm/session.py", line 656, in commit
+    self.transaction.commit()
+  File "/usr/lib/python2.7/dist-packages/sqlalchemy/orm/session.py", line 314, in commit
+    self._prepare_impl()
+  File "/usr/lib/python2.7/dist-packages/sqlalchemy/orm/session.py", line 298, in _prepare_impl
+    self.session.flush()
+  File "/usr/lib/python2.7/dist-packages/sqlalchemy/orm/session.py", line 1583, in flush
+    self._flush(objects)
+  File "/usr/lib/python2.7/dist-packages/sqlalchemy/orm/session.py", line 1654, in _flush
+    flush_context.execute()
+  File "/usr/lib/python2.7/dist-packages/sqlalchemy/orm/unitofwork.py", line 331, in execute
+    rec.execute(self)
+  File "/usr/lib/python2.7/dist-packages/sqlalchemy/orm/unitofwork.py", line 475, in execute
+    uow
+  File "/usr/lib/python2.7/dist-packages/sqlalchemy/orm/persistence.py", line 64, in save_obj
+    table, insert)
+  File "/usr/lib/python2.7/dist-packages/sqlalchemy/orm/persistence.py", line 558, in _emit_insert_statements
+    execute(statement, params)
+  File "/usr/lib/python2.7/dist-packages/sqlalchemy/engine/base.py", line 1449, in execute
+    params)
+  File "/usr/lib/python2.7/dist-packages/sqlalchemy/engine/base.py", line 1584, in _execute_clauseelement
+    compiled_sql, distilled_params
+  File "/usr/lib/python2.7/dist-packages/sqlalchemy/engine/base.py", line 1698, in _execute_context
+    context)
+  File "/usr/lib/python2.7/dist-packages/sqlalchemy/engine/base.py", line 1691, in _execute_context
+    context)
+  File "/usr/lib/python2.7/dist-packages/sqlalchemy/engine/default.py", line 331, in do_execute
+    cursor.execute(statement, parameters)
+OperationalError: (OperationalError) no such table: datetime u'INSERT INTO datetime (name, value, time) VALUES (?, ?, ?)' (None, 'date1   20141009_1321:29', None)
+
+Exception in thread date2:
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/threading.py", line 552, in __bootstrap_inner
+    self.run()
+  File "./sensor_logger.py", line 58, in run
+    self._get_data()
+  File "./sensor_logger.py", line 74, in _get_data
+    self.get_reading()
+  File "./sensor_logger.py", line 40, in get_reading
+    self.session.commit()
+  File "/usr/lib/python2.7/dist-packages/sqlalchemy/orm/session.py", line 656, in commit
+    self.transaction.commit()
+  File "/usr/lib/python2.7/dist-packages/sqlalchemy/orm/session.py", line 314, in commit
+    self._prepare_impl()
+  File "/usr/lib/python2.7/dist-packages/sqlalchemy/orm/session.py", line 298, in _prepare_impl
+    self.session.flush()
+  File "/usr/lib/python2.7/dist-packages/sqlalchemy/orm/session.py", line 1583, in flush
+    self._flush(objects)
+  File "/usr/lib/python2.7/dist-packages/sqlalchemy/orm/session.py", line 1654, in _flush
+    flush_context.execute()
+  File "/usr/lib/python2.7/dist-packages/sqlalchemy/orm/unitofwork.py", line 331, in execute
+    rec.execute(self)
+  File "/usr/lib/python2.7/dist-packages/sqlalchemy/orm/unitofwork.py", line 475, in execute
+    uow
+  File "/usr/lib/python2.7/dist-packages/sqlalchemy/orm/persistence.py", line 64, in save_obj
+    table, insert)
+  File "/usr/lib/python2.7/dist-packages/sqlalchemy/orm/persistence.py", line 558, in _emit_insert_statements
+    execute(statement, params)
+  File "/usr/lib/python2.7/dist-packages/sqlalchemy/engine/base.py", line 1449, in execute
+    params)
+  File "/usr/lib/python2.7/dist-packages/sqlalchemy/engine/base.py", line 1584, in _execute_clauseelement
+    compiled_sql, distilled_params
+  File "/usr/lib/python2.7/dist-packages/sqlalchemy/engine/base.py", line 1698, in _execute_context
+    context)
+  File "/usr/lib/python2.7/dist-packages/sqlalchemy/engine/base.py", line 1691, in _execute_context
+    context)
+  File "/usr/lib/python2.7/dist-packages/sqlalchemy/engine/default.py", line 331, in do_execute
+    cursor.execute(statement, parameters)
+OperationalError: (OperationalError) no such table: datetime u'INSERT INTO datetime (name, value, time) VALUES (?, ?, ?)' (None, 'date2   20141009_1321:33', None)
+
+Starting date1
+
+Starting date2
+
+date1   20141009_1315:57
+date2   20141009_1316:02
+date1   20141009_1316:02
+date1   20141009_1316:07
+date2   20141009_1316:12
+date1   20141009_1316:12
+date1   20141009_1316:17
+date2   20141009_1316:22
+date1   20141009_1316:22
+date1   20141009_1316:27
+date2   20141009_1316:32
+date1   20141009_1316:32
+date1   20141009_1316:37
+date2   20141009_1316:42
+date1   20141009_1316:42
+date1   20141009_1316:47
+date2   20141009_1316:52
+date1   20141009_1316:52
+date1   20141009_1316:57
+date2   20141009_1317:02
+date1   20141009_1317:02
+date1   20141009_1317:07
+date2   20141009_1317:12
+date1   20141009_1317:12
+date1   20141009_1317:17
+date2   20141009_1317:22
+date1   20141009_1317:23
+date1   20141009_1317:28
+date2   20141009_1317:32
+date1   20141009_1317:33
+date1   20141009_1317:38
+date2   20141009_1317:42
+date1   20141009_1317:43
+date1   20141009_1317:48
+date2   20141009_1317:52
+date1   20141009_1317:53
+date1   20141009_1317:58
+date2   20141009_1318:02
+date1   20141009_1318:03
+date1   20141009_1318:08
+date2   20141009_1318:12
+date1   20141009_1318:13
+date1   20141009_1318:18
+date2   20141009_1318:22
+date1   20141009_1318:23
+date1   20141009_1318:28
+date2   20141009_1318:33
+date1   20141009_1318:33
+date1   20141009_1318:38
+date2   20141009_1318:43
+date1   20141009_1318:43
+date1   20141009_1318:48
+date2   20141009_1318:53
+date1   20141009_1318:53
+date1   20141009_1318:58
+date2   20141009_1319:03
+date1   20141009_1319:03
+date1   20141009_1319:08
+date2   20141009_1319:13
+date1   20141009_1319:13
+date1   20141009_1319:18
+date2   20141009_1319:23
+date1   20141009_1319:23
+date1   20141009_1319:28
+date2   20141009_1319:33
+date1   20141009_1319:33
+date1   20141009_1319:38
+date2   20141009_1319:43
+date1   20141009_1319:43
+date1   20141009_1319:48
+date2   20141009_1319:53
+date1   20141009_1319:53
+date1   20141009_1319:58
+date2   20141009_1320:03
+date1   20141009_1320:03
+date1   20141009_1320:08
+date2   20141009_1320:13
+date1   20141009_1320:13
+date1   20141009_1320:19
+date2   20141009_1320:23
+date1   20141009_1320:24
+date1   20141009_1320:29
+date2   20141009_1320:33
+date1   20141009_1320:34
+date1   20141009_1320:39
+date2   20141009_1320:43
+date1   20141009_1320:44
+date1   20141009_1320:49
+date2   20141009_1320:53
+date1   20141009_1320:54
+date1   20141009_1320:59
+date2   20141009_1321:03
+date1   20141009_1321:04
+date1   20141009_1321:09
+date2   20141009_1321:13
+date1   20141009_1321:14
+date1   20141009_1321:19
+date2   20141009_1321:23
+date1   20141009_1321:24
