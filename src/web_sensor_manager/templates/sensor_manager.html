@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% block body %}
+    <div class="sensor">
+        <form action="{{ url_for('add_sensor') }}" method="get" class=add-entry>
+            name:<input type=text size=30 name=name>
+            type:<input type=text size=30 name=type>
+            interval:<input type=text size=4 name=type value="10">
+            <input type=submit value="add sensor">
+        </form>
+    </div>
+
+  <ul class=entries>
+  {% for sensor in sensors %}
+   <li>{{ sensor.name }} {{ sensor.type }} <a href="{{ url_for('delete_sensor', id=loop.index0) }}">delete</a> <a href="{{ url_for('show_sensor', id=loop.index0) }}">view data</a> </li>
+  {% else %}
+    <li><em>Unbelievable.  No entries here so far</em>
+  {% endfor %}
+    
+  <br /><br />
+  {% for plot in plots %}
+    {{ plot|safe }}<br />
+  {% else %}
+    <li><em>No plots there!</em>
+  {% endfor %}
+  </ul>
+{% endblock %}
