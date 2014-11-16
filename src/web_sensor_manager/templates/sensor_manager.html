@@ -1,21 +1,35 @@
 {% extends "layout.html" %}
 {% block body %}
     <div class="sensor">
-        <form action="{{ url_for('add_sensor') }}" method="get" class=add-entry>
-            name:<input type=text size=30 name=name>
-            type:<input type=text size=30 name=type>
-            interval:<input type=text size=4 name=type value="10">
+        <form action="{{ url_for('add_sensor') }}" method="post" class=add-entry>
+            name:<input type=text size=30 name="name">
+            type:<input type=text size=30 name="type">
+            interval:<input type=text size=4 name="interval" value="10">
             <input type=submit value="add sensor">
         </form>
     </div>
 
-  <ul class=entries>
-  {% for sensor in sensors %}
-   <li>{{ sensor.name }} {{ sensor.type }} <a href="{{ url_for('delete_sensor', id=loop.index0) }}">delete</a> <a href="{{ url_for('show_sensor', id=loop.index0) }}">view data</a> </li>
-  {% else %}
-    <li><em>Unbelievable.  No entries here so far</em>
-  {% endfor %}
-    
+    <ul class=entries>
+        <table>
+            {% for sensor in sensors %}
+                <tr>
+                    <td>{{ sensor.name }}</td>
+                    <td>{{ sensor.type }}</td>
+                    <td>{{ sensor.interval }}</td>
+                    <td>{{ sensor.log }}</td>
+                    {% if sensor.log == True %}
+                        <td><a href="{{ url_for('deactivate_sensor', id=sensor.id) }}">deactivate</a></td>
+                    {% else %}
+                        <td><a href="{{ url_for('activate_sensor', id=sensor.id) }}">activate</a></td>
+                    {% endif %}
+                    <td><a href="{{ url_for('show_sensor', id=sensor.id) }}">view data</a></td>
+                    <td><a href="{{ url_for('delete_sensor', id=sensor.id) }}">delete</a></td>
+                </tr>
+            {% else %}
+                <li><em>Unbelievable.  No entries here so far</em>
+            {% endfor %}
+        </table>
+
   <br /><br />
   {% for plot in plots %}
     {{ plot|safe }}<br />

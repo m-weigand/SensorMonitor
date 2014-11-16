@@ -1,13 +1,13 @@
-import BaseLogger
+import baselogger
 import datetime
 from tinkerforge.ip_connection import IPConnection
 from tinkerforge.bricklet_ambient_light import AmbientLight
 import sqlalchemy as sa
 
 
-class tf_light(BaseLogger.BaseLogger):
+class tf_light(baselogger.BaseLogger):
     def __init__(self, db, threadID, name, table):
-        BaseLogger.BaseLogger.__init__(self, db, threadID, name, table)
+        baselogger.BaseLogger.__init__(self, db, threadID, name, table)
 
         # tinkerforge settings
         self.host = '127.0.0.1'

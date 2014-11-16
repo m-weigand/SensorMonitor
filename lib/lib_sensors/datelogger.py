@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-import BaseLogger
+import baselogger
 import sqlalchemy as sa
 import datetime
 
 
-class DateLogger(BaseLogger.BaseLogger):
+class DateLogger(baselogger.BaseLogger):
     """Log the datetime
     """
     def _get_data(self):

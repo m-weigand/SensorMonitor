@@ -11,8 +11,7 @@ from sqlalchemy.orm import sessionmaker
 import os
 import time
 import threading
-import lib_sensor.datelogger as DL
-import lib_sensor.tf_light as tf_light
+import lib_sensors.sensors as SL
 
 
 class LoggerManager(threading.Thread):
@@ -26,8 +25,6 @@ class LoggerManager(threading.Thread):
         self.settings = settings
         self.create_database()
         self.counter = 0
-        self.available_loggers = {'datetime': DL.DateLogger,
-                                  'tf_light': tf_light.tf_light}
         self.loggers = {}
         self.tables = {}
         self.lock = threading.Lock()  # use to set the exit flag
@@ -118,7 +115,7 @@ class LoggerManager(threading.Thread):
                         not_created_yet = True
                 else:
                     self.loggers[item.type] = []
-                    self.tables[item.type] = self.available_loggers[
+                    self.tables[item.type] = SL[
                         item.type].get_table(self.db['base'], self.db['engine'])
                     not_created_yet = True
 
@@ -127,7 +124,7 @@ class LoggerManager(threading.Thread):
                     #    self.db['base'],
                     #    self.db['engine'])
                     table_logger = self.tables[item.type]
-                    new_logger = self.available_loggers[item.type](
+                    new_logger = SL[item.type](
                         self.db, self.counter,
                         item.name, table_logger)
 

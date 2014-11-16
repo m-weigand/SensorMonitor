@@ -2,64 +2,20 @@
 import sys
 sys.path.append('../sensor_logger/')
 from flask import Flask
-from flask import render_template, url_for
+from flask import render_template
+# from flask import url_for
 from sensor_logger import LoggerManager
-from tf_light import tf_light
+# import lib_sensors.sensors as sensors
+from flask import request
+
+# import plot_bokeh as plot_funcs
+import plot_mpl as plot_funcs
 
 # import uuid
 from crlab_py.mpl import *
 
 app = Flask(__name__)
 app.debug = True
-
-
-def plot_light(db, item):
-    print 'plotting tf light'
-
-    table = tf_light.get_table(db['base'], db['engine'])
-    query = db['session'].query(table).all()
-    times = [x.datetime for x in query]
-    illuminances = [float(x.value) for x in query]
-
-    # filename_base = str(uuid.uuid4()) + '.png'
-    # filename = 'static/' + filename_base
-
-    """
-    fig, ax = plt.subplots(1, 1)
-    ax.set_title(item.name)
-    ax.plot(times, illuminances, '.-')
-    fig.autofmt_xdate()
-
-    fig.savefig(filename)
-    """
-
-    # try bokeh
-    from bokeh.resources import CDN
-    # from bokeh.plotting import circle
-    from bokeh.embed import autoload_static
-    import bokeh.plotting as bk
-
-    # plot = circle([1, 2], [3, 4])
-    plot = bk.line(range(0, len(illuminances)), illuminances, line_width=2)
-
-    x = range(0, len(illuminances))
-    y = illuminances
-    # print 'x', x
-    print len(x), len(y)
-    # xs = [0, 1, 2, 3, 4, 5]
-    # ys = [x**2 for x in xs]
-    plot = bk.line(times, y, line_width=2, x_axis_type="datetime")
-
-    js, tag = autoload_static(plot, CDN, url_for('static', filename="plot.js"))
-
-    with open('static/plot.js', 'w') as fid:
-        fid.write(js)
-
-    output_html = ''
-    # output_html = '<img src="' + url_for('static', filename=filename_base)
-    # output_html += '">'
-    output_html += tag
-    return output_html
 
 
 @app.route('/')
@@ -73,9 +29,8 @@ def render_sensors():
     query = db['session'].query(db['sensors']).all()
     plots = []
     for item in query:
-        print item.name, item.type
         if item.type == 'tf_light':
-            plot = plot_light(db, item)
+            plot = plot_funcs.plot_light(db, item)
             plots.append(plot)
 
     return render_template('sensor_manager.html', sensors=query, plots=plots)
@@ -86,12 +41,15 @@ def show_sensor():
     return render_sensors()
 
 
-@app.route('/add_sensor')
+@app.route('/add_sensor', methods=['POST', ])
 def add_sensor():
-    ins = db['sensors'](type='datetime', name='date1',
-                        interval=5,
-                        log=True)
-
+    logger_manager = LoggerManager({})
+    db = logger_manager.db
+    name = request.form['name']
+    sensor_type = request.form['type']
+    interval = request.form['interval']
+    ins = db['sensors'](type=sensor_type, name=name,
+                        interval=interval, log=True)
     db['session'].add(ins)
     db['session'].commit()
     return render_sensors()
@@ -99,6 +57,42 @@ def add_sensor():
 
 @app.route('/delete_sensor')
 def delete_sensor():
+    logger_manager = LoggerManager({})
+    db = logger_manager.db
+
+    id_to_delete = request.args.get('id', '', type=int)
+    query = db['session'].query(db['sensors']).filter_by(
+        id=id_to_delete).first()
+
+    db['session'].delete(query)
+    db['session'].commit()
+    return render_sensors()
+
+
+@app.route('/activate_sensor')
+def activate_sensor():
+    set_log(True)
+    return render_sensors()
+
+
+@app.route('/deactivate_sensor')
+def deactivate_sensor():
+    set_log(False)
+    return render_sensors()
+
+
+def set_log(state):
+    logger_manager = LoggerManager({})
+    db = logger_manager.db
+
+    id_to_delete = request.args.get('id', '', type=int)
+    query = db['session'].query(db['sensors']).filter_by(
+        id=id_to_delete).first()
+
+    query.log = state
+    # db['session'].update(query).values(log=False)
+    db['session'].add(query)
+    db['session'].commit()
     return render_sensors()
 
 if __name__ == '__main__':
