@@ -32,6 +32,9 @@ def render_sensors():
         if item.type == 'tf_light':
             plot = plot_funcs.plot_light(db, item)
             plots.append(plot)
+        if item.type == 'tf_temp':
+            plot = plot_funcs.plot_temp(db, item)
+            plots.append(plot)
 
     return render_template('sensor_manager.html', sensors=query, plots=plots)
 
@@ -48,8 +51,10 @@ def add_sensor():
     name = request.form['name']
     sensor_type = request.form['type']
     interval = request.form['interval']
+    settings = request.form['settings']
     ins = db['sensors'](type=sensor_type, name=name,
-                        interval=interval, log=True)
+                        interval=interval, log=True,
+                        settings=settings)
     db['session'].add(ins)
     db['session'].commit()
     return render_sensors()

@@ -4,13 +4,19 @@ import time
 
 
 class BaseLogger(threading.Thread):
-    def __init__(self, db, threadID, name, table):
+    def __init__(self, db, threadID, name, table, settings):
+        """
+        Parameters
+        ----------
+        db :
+        """
         threading.Thread.__init__(self)
         self.lock = threading.Lock()  # use to set the exit flag
         self.exitFlag = False
         self.db = db
         self.db['base'].metadata.create_all(self.db['engine'])
         self.table = table
+        self.settings = settings
 
         self.name = name
         self.threadID = threadID

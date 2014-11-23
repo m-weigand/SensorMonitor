@@ -1,10 +1,12 @@
 {% extends "layout.html" %}
 {% block body %}
     <div class="sensor">
+        Example settings for tf_light: "127.0.0.1:4223:asU"<br />
         <form action="{{ url_for('add_sensor') }}" method="post" class=add-entry>
             name:<input type=text size=30 name="name">
             type:<input type=text size=30 name="type">
             interval:<input type=text size=4 name="interval" value="10">
+            settings:<input type=text size=40 name="settings" values = "">
             <input type=submit value="add sensor">
         </form>
     </div>

@@ -12,6 +12,7 @@ import os
 import time
 import threading
 import lib_sensors.sensors as SL
+sensor_types = SL.available_loggers
 
 
 class LoggerManager(threading.Thread):
@@ -46,6 +47,7 @@ class LoggerManager(threading.Thread):
             log = sa.Column(sa.types.Boolean)
             interval = sa.Column(sa.types.Integer)
             description = sa.Column(sa.types.String)
+            settings = sa.Column(sa.types.String)
 
         # create the table
         Base.metadata.create_all(engine)
@@ -92,8 +94,8 @@ class LoggerManager(threading.Thread):
         """
 
         # get sensor settings
-        settings = self.db['session'].query(self.db['sensors'])
-        for item in settings:
+        sensor_list = self.db['session'].query(self.db['sensors'])
+        for item in sensor_list:
             # is this logger active?
             if not item.log:
                 # check if logger is running and stop
@@ -115,7 +117,7 @@ class LoggerManager(threading.Thread):
                         not_created_yet = True
                 else:
                     self.loggers[item.type] = []
-                    self.tables[item.type] = SL[
+                    self.tables[item.type] = sensor_types[
                         item.type].get_table(self.db['base'], self.db['engine'])
                     not_created_yet = True
 
@@ -124,9 +126,10 @@ class LoggerManager(threading.Thread):
                     #    self.db['base'],
                     #    self.db['engine'])
                     table_logger = self.tables[item.type]
-                    new_logger = SL[item.type](
+                    new_logger = sensor_types[item.type](
                         self.db, self.counter,
-                        item.name, table_logger)
+                        item.name, table_logger,
+                        item.settings)
 
                     # set settings
                     new_logger.interval = item.interval
