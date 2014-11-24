@@ -21,9 +21,30 @@ def reduce_xy(x, y, number):
     return np.array(xl), np.array(yl)
 
 
-x = np.array(range(0, 998))
-a, b = reduce_xy(x, x, 100)
-print x.shape, a.shape
+def plot_moisture(db, item):
+    print 'plotting tf moisture'
+    tf_light = sensors.available_loggers['tf_moisture']
+
+    table = tf_light.get_table(db['base'], db['engine'])
+    query = db['session'].query(table).all()
+    times = [x.datetime for x in query]
+    moisture = [float(x.value) for x in query]
+
+    x = range(0, len(moisture))
+    y = moisture
+    x, y = reduce_xy(x, y, 100)
+
+    fig, ax = plt.subplots(1, 1)
+    ax.set_title(item.name)
+    ax.plot(times, y)
+    ax.set_ylabel('Moisture [mA]')
+    format = "png"
+    sio = cStringIO.StringIO()
+    fig.autofmt_xdate()
+    fig.savefig(sio, format=format)
+    output_html = '<img src="data:image/png;base64,{0}"/>'.format(
+        sio.getvalue().encode("base64").strip())
+    return output_html
 
 
 def plot_temp(db, item):

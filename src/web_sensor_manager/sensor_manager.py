@@ -32,6 +32,9 @@ def render_sensors():
         if item.type == 'tf_temp':
             plot = plot_funcs.plot_temp(db, item)
             plots.append(plot)
+        if item.type == 'tf_moisture':
+            plot = plot_funcs.plot_moisture(db, item)
+            plots.append(plot)
 
     return render_template('sensor_manager.html', sensors=query, plots=plots)
 
