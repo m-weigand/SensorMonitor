@@ -30,9 +30,9 @@ def plot_moisture(db, item):
     times = [x.datetime for x in query]
     moisture = np.array([float(x.value) for x in query])
 
-    x = range(0, len(moisture))
+    # x = range(0, len(moisture))
     y = moisture / 1000.0
-    x, y = reduce_xy(x, y, 100)
+    times, y = reduce_xy(times, y, 100)
 
     fig, ax = plt.subplots(1, 1)
     ax.set_title(item.name)
@@ -56,9 +56,9 @@ def plot_temp(db, item):
     times = [x.datetime for x in query]
     temperatures = [float(x.value) for x in query]
 
-    x = range(0, len(temperatures))
+    # x = range(0, len(temperatures))
     y = temperatures
-    x, y = reduce_xy(x, y, 100)
+    times, y = reduce_xy(times, y, 100)
 
     fig, ax = plt.subplots(1, 1)
     ax.set_title(item.name)
@@ -94,9 +94,9 @@ def plot_light(db, item):
     fig.savefig(filename)
     """
 
-    x = range(0, len(illuminances))
+    # x = range(0, len(illuminances))
     y = illuminances
-    x, y = reduce_xy(x, y, 100)
+    times, y = reduce_xy(times, y, 100)
 
     fig, ax = plt.subplots(1, 1)
     ax.set_title(item.name)
