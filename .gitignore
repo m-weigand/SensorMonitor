@@ -1,2 +1,5 @@
 *.pyc
 .ropeproject
+build/
+dist/
+lib/mx_sensor_logger.egg-info/

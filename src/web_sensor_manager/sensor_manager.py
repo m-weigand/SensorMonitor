@@ -11,9 +11,6 @@ from flask import request
 # import plot_bokeh as plot_funcs
 import plot_mpl as plot_funcs
 
-# import uuid
-from crlab_py.mpl import *
-
 app = Flask(__name__)
 app.debug = True
 

@@ -25,5 +25,5 @@ if __name__ == '__main__':
           scripts=['src/sensor_logger/sensor_logger.py',
                    'src/web_sensor_manager/sensor_manager.py'
                    ],
-          install_requires=['numpy', 'scipy>=0.12', 'matplotlib']
+          install_requires=['numpy', 'scipy', 'matplotlib']
           )

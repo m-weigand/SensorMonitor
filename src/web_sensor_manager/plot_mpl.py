@@ -1,6 +1,7 @@
 import lib_sensors.sensors as sensors
 # from flask import url_for
-# import matplotlib as mpl
+import matplotlib as mpl
+mpl.use('Agg')
 import pylab as plt
 import cStringIO
 
