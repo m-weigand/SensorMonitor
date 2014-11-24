@@ -36,7 +36,7 @@ def plot_moisture(db, item):
 
     fig, ax = plt.subplots(1, 1)
     ax.set_title(item.name)
-    ax.plot(times, y)
+    ax.plot(times, y, '.-')
     ax.set_ylabel('Moisture [mA]')
     format = "png"
     sio = cStringIO.StringIO()
@@ -62,7 +62,7 @@ def plot_temp(db, item):
 
     fig, ax = plt.subplots(1, 1)
     ax.set_title(item.name)
-    ax.plot(times, y)
+    ax.plot(times, y, '.-')
     ax.set_ylabel('T [deg]')
     format = "png"
     sio = cStringIO.StringIO()
@@ -100,7 +100,7 @@ def plot_light(db, item):
 
     fig, ax = plt.subplots(1, 1)
     ax.set_title(item.name)
-    ax.plot(times, y)
+    ax.plot(times, y, '.-')
     format = "png"
     sio = cStringIO.StringIO()
     fig.savefig(sio, format=format)
