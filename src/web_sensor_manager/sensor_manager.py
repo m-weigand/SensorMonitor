@@ -98,4 +98,4 @@ def set_log(state):
     return render_sensors()
 
 if __name__ == '__main__':
-    app.run()
+    app.run('0.0.0.0')
