@@ -28,7 +28,7 @@ def plot_moisture(db, item):
     table = tf_light.get_table(db['base'], db['engine'])
     query = db['session'].query(table).all()
     times = [x.datetime for x in query]
-    moisture = [float(x.value) for x in query]
+    moisture = np.array([float(x.value) for x in query])
 
     x = range(0, len(moisture))
     y = moisture / 1000.0
