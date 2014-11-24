@@ -37,3 +37,14 @@ ins = db['sensors'](type='tf_temp', name='temp 1',
                     interval=3, log=True, settings='127.0.0.1:4223:6JW')
 db['session'].add(ins)
 db['session'].commit()
+
+ins = db['sensors'](type='tf_temp', name='temp 2',
+                    # interval=3, log=True, settings='pi:4223:6JW')
+                    interval=3, log=True, settings='127.0.0.1:4223:npD')
+db['session'].add(ins)
+db['session'].commit()
+
+ins = db['sensors'](type='tf_moisture', name='moisture 1',
+                    interval=3, log=True, settings='127.0.0.1:4223:kwY')
+db['session'].add(ins)
+db['session'].commit()

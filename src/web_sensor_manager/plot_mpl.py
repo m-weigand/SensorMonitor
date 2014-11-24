@@ -1,9 +1,29 @@
 import lib_sensors.sensors as sensors
+import numpy as np
 # from flask import url_for
 import matplotlib as mpl
 mpl.use('Agg')
 import pylab as plt
 import cStringIO
+
+
+def reduce_xy(x, y, number):
+    """return reduced versions of x and y with number entries
+    """
+    total_nr = len(x)
+    steplength = np.ceil(total_nr / float(number)).astype(int)
+    indices = range(0, total_nr, steplength)
+    xl = []
+    yl = []
+    for index in indices:
+        xl.append(x[index])
+        yl.append(y[index])
+    return np.array(xl), np.array(yl)
+
+
+x = np.array(range(0, 998))
+a, b = reduce_xy(x, x, 100)
+print x.shape, a.shape
 
 
 def plot_temp(db, item):
@@ -17,6 +37,7 @@ def plot_temp(db, item):
 
     x = range(0, len(temperatures))
     y = temperatures
+    x, y = reduce_xy(x, y, 100)
 
     fig, ax = plt.subplots(1, 1)
     ax.set_title(item.name)
@@ -54,6 +75,7 @@ def plot_light(db, item):
 
     x = range(0, len(illuminances))
     y = illuminances
+    x, y = reduce_xy(x, y, 100)
 
     fig, ax = plt.subplots(1, 1)
     ax.set_title(item.name)
