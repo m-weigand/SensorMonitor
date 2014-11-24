@@ -31,7 +31,7 @@ def plot_moisture(db, item):
     moisture = [float(x.value) for x in query]
 
     x = range(0, len(moisture))
-    y = moisture
+    y = moisture / 1000.0
     x, y = reduce_xy(x, y, 100)
 
     fig, ax = plt.subplots(1, 1)
