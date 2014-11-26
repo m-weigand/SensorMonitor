@@ -95,7 +95,8 @@ class tf_temp(tf_base):
         time_now = self.get_timestamp()
         print(
             'Temperature ', temperature,
-            datetime.datetime.now().strftime(r'%Y%m%d_%H%M:%S'))
+            datetime.datetime.now().strftime(r'%Y%m%d_%H%M:%S'),
+            self.uid)
         ins = self.table(value=temperature,
                          datetime=time_now)
 
