@@ -1,183 +1,284 @@
-Exception in thread date1:
-Traceback (most recent call last):
-  File "/usr/lib/python2.7/threading.py", line 552, in __bootstrap_inner
-    self.run()
-  File "./sensor_logger.py", line 58, in run
-    self._get_data()
-  File "./sensor_logger.py", line 74, in _get_data
-    self.get_reading()
-  File "./sensor_logger.py", line 40, in get_reading
-    self.session.commit()
-  File "/usr/lib/python2.7/dist-packages/sqlalchemy/orm/session.py", line 656, in commit
-    self.transaction.commit()
-  File "/usr/lib/python2.7/dist-packages/sqlalchemy/orm/session.py", line 314, in commit
-    self._prepare_impl()
-  File "/usr/lib/python2.7/dist-packages/sqlalchemy/orm/session.py", line 298, in _prepare_impl
-    self.session.flush()
-  File "/usr/lib/python2.7/dist-packages/sqlalchemy/orm/session.py", line 1583, in flush
-    self._flush(objects)
-  File "/usr/lib/python2.7/dist-packages/sqlalchemy/orm/session.py", line 1654, in _flush
-    flush_context.execute()
-  File "/usr/lib/python2.7/dist-packages/sqlalchemy/orm/unitofwork.py", line 331, in execute
-    rec.execute(self)
-  File "/usr/lib/python2.7/dist-packages/sqlalchemy/orm/unitofwork.py", line 475, in execute
-    uow
-  File "/usr/lib/python2.7/dist-packages/sqlalchemy/orm/persistence.py", line 64, in save_obj
-    table, insert)
-  File "/usr/lib/python2.7/dist-packages/sqlalchemy/orm/persistence.py", line 558, in _emit_insert_statements
-    execute(statement, params)
-  File "/usr/lib/python2.7/dist-packages/sqlalchemy/engine/base.py", line 1449, in execute
-    params)
-  File "/usr/lib/python2.7/dist-packages/sqlalchemy/engine/base.py", line 1584, in _execute_clauseelement
-    compiled_sql, distilled_params
-  File "/usr/lib/python2.7/dist-packages/sqlalchemy/engine/base.py", line 1698, in _execute_context
-    context)
-  File "/usr/lib/python2.7/dist-packages/sqlalchemy/engine/base.py", line 1691, in _execute_context
-    context)
-  File "/usr/lib/python2.7/dist-packages/sqlalchemy/engine/default.py", line 331, in do_execute
-    cursor.execute(statement, parameters)
-OperationalError: (OperationalError) no such table: datetime u'INSERT INTO datetime (name, value, time) VALUES (?, ?, ?)' (None, 'date1   20141009_1321:29', None)
+Starting light 1
 
-Exception in thread date2:
-Traceback (most recent call last):
-  File "/usr/lib/python2.7/threading.py", line 552, in __bootstrap_inner
-    self.run()
-  File "./sensor_logger.py", line 58, in run
-    self._get_data()
-  File "./sensor_logger.py", line 74, in _get_data
-    self.get_reading()
-  File "./sensor_logger.py", line 40, in get_reading
-    self.session.commit()
-  File "/usr/lib/python2.7/dist-packages/sqlalchemy/orm/session.py", line 656, in commit
-    self.transaction.commit()
-  File "/usr/lib/python2.7/dist-packages/sqlalchemy/orm/session.py", line 314, in commit
-    self._prepare_impl()
-  File "/usr/lib/python2.7/dist-packages/sqlalchemy/orm/session.py", line 298, in _prepare_impl
-    self.session.flush()
-  File "/usr/lib/python2.7/dist-packages/sqlalchemy/orm/session.py", line 1583, in flush
-    self._flush(objects)
-  File "/usr/lib/python2.7/dist-packages/sqlalchemy/orm/session.py", line 1654, in _flush
-    flush_context.execute()
-  File "/usr/lib/python2.7/dist-packages/sqlalchemy/orm/unitofwork.py", line 331, in execute
-    rec.execute(self)
-  File "/usr/lib/python2.7/dist-packages/sqlalchemy/orm/unitofwork.py", line 475, in execute
-    uow
-  File "/usr/lib/python2.7/dist-packages/sqlalchemy/orm/persistence.py", line 64, in save_obj
-    table, insert)
-  File "/usr/lib/python2.7/dist-packages/sqlalchemy/orm/persistence.py", line 558, in _emit_insert_statements
-    execute(statement, params)
-  File "/usr/lib/python2.7/dist-packages/sqlalchemy/engine/base.py", line 1449, in execute
-    params)
-  File "/usr/lib/python2.7/dist-packages/sqlalchemy/engine/base.py", line 1584, in _execute_clauseelement
-    compiled_sql, distilled_params
-  File "/usr/lib/python2.7/dist-packages/sqlalchemy/engine/base.py", line 1698, in _execute_context
-    context)
-  File "/usr/lib/python2.7/dist-packages/sqlalchemy/engine/base.py", line 1691, in _execute_context
-    context)
-  File "/usr/lib/python2.7/dist-packages/sqlalchemy/engine/default.py", line 331, in do_execute
-    cursor.execute(statement, parameters)
-OperationalError: (OperationalError) no such table: datetime u'INSERT INTO datetime (name, value, time) VALUES (?, ?, ?)' (None, 'date2   20141009_1321:33', None)
+Starting temp 1
 
-Starting date1
+Starting temp 2
 
-Starting date2
-
-date1   20141009_1315:57
-date2   20141009_1316:02
-date1   20141009_1316:02
-date1   20141009_1316:07
-date2   20141009_1316:12
-date1   20141009_1316:12
-date1   20141009_1316:17
-date2   20141009_1316:22
-date1   20141009_1316:22
-date1   20141009_1316:27
-date2   20141009_1316:32
-date1   20141009_1316:32
-date1   20141009_1316:37
-date2   20141009_1316:42
-date1   20141009_1316:42
-date1   20141009_1316:47
-date2   20141009_1316:52
-date1   20141009_1316:52
-date1   20141009_1316:57
-date2   20141009_1317:02
-date1   20141009_1317:02
-date1   20141009_1317:07
-date2   20141009_1317:12
-date1   20141009_1317:12
-date1   20141009_1317:17
-date2   20141009_1317:22
-date1   20141009_1317:23
-date1   20141009_1317:28
-date2   20141009_1317:32
-date1   20141009_1317:33
-date1   20141009_1317:38
-date2   20141009_1317:42
-date1   20141009_1317:43
-date1   20141009_1317:48
-date2   20141009_1317:52
-date1   20141009_1317:53
-date1   20141009_1317:58
-date2   20141009_1318:02
-date1   20141009_1318:03
-date1   20141009_1318:08
-date2   20141009_1318:12
-date1   20141009_1318:13
-date1   20141009_1318:18
-date2   20141009_1318:22
-date1   20141009_1318:23
-date1   20141009_1318:28
-date2   20141009_1318:33
-date1   20141009_1318:33
-date1   20141009_1318:38
-date2   20141009_1318:43
-date1   20141009_1318:43
-date1   20141009_1318:48
-date2   20141009_1318:53
-date1   20141009_1318:53
-date1   20141009_1318:58
-date2   20141009_1319:03
-date1   20141009_1319:03
-date1   20141009_1319:08
-date2   20141009_1319:13
-date1   20141009_1319:13
-date1   20141009_1319:18
-date2   20141009_1319:23
-date1   20141009_1319:23
-date1   20141009_1319:28
-date2   20141009_1319:33
-date1   20141009_1319:33
-date1   20141009_1319:38
-date2   20141009_1319:43
-date1   20141009_1319:43
-date1   20141009_1319:48
-date2   20141009_1319:53
-date1   20141009_1319:53
-date1   20141009_1319:58
-date2   20141009_1320:03
-date1   20141009_1320:03
-date1   20141009_1320:08
-date2   20141009_1320:13
-date1   20141009_1320:13
-date1   20141009_1320:19
-date2   20141009_1320:23
-date1   20141009_1320:24
-date1   20141009_1320:29
-date2   20141009_1320:33
-date1   20141009_1320:34
-date1   20141009_1320:39
-date2   20141009_1320:43
-date1   20141009_1320:44
-date1   20141009_1320:49
-date2   20141009_1320:53
-date1   20141009_1320:54
-date1   20141009_1320:59
-date2   20141009_1321:03
-date1   20141009_1321:04
-date1   20141009_1321:09
-date2   20141009_1321:13
-date1   20141009_1321:14
-date1   20141009_1321:19
-date2   20141009_1321:23
-date1   20141009_1321:24
+('Temperature ', 15.75, '20141126_1741:12', u'6JW')
+('Temperature ', 15.75, '20141126_1741:12', u'6JW')
+('Illuminance ', 3.4, '20141126_1741:14')
+('Temperature ', 15.75, '20141126_1741:15', u'6JW')
+('Temperature ', 15.81, '20141126_1741:15', u'6JW')
+('Temperature ', 15.75, '20141126_1741:18', u'6JW')
+('Temperature ', 15.75, '20141126_1741:18', u'6JW')
+('Illuminance ', 3.4, '20141126_1741:19')
+('Temperature ', 15.75, '20141126_1741:21', u'6JW')
+('Temperature ', 15.75, '20141126_1741:21', u'6JW')
+('Illuminance ', 3.4, '20141126_1741:24')
+('Temperature ', 15.75, '20141126_1741:24', u'6JW')
+('Temperature ', 15.75, '20141126_1741:24', u'6JW')
+('Temperature ', 15.75, '20141126_1741:27', u'6JW')
+('Temperature ', 15.75, '20141126_1741:27', u'6JW')
+('Illuminance ', 3.4, '20141126_1741:29')
+('Temperature ', 15.75, '20141126_1741:30', u'6JW')
+('Temperature ', 15.75, '20141126_1741:30', u'6JW')
+('Temperature ', 15.75, '20141126_1741:33', u'6JW')
+('Temperature ', 15.75, '20141126_1741:33', u'6JW')
+('Illuminance ', 3.4, '20141126_1741:34')
+('Temperature ', 15.75, '20141126_1741:36', u'6JW')
+('Temperature ', 15.75, '20141126_1741:36', u'6JW')
+('Illuminance ', 3.4, '20141126_1741:39')
+('Temperature ', 15.75, '20141126_1741:39', u'6JW')
+('Temperature ', 15.75, '20141126_1741:39', u'6JW')
+('Temperature ', 15.75, '20141126_1741:42', u'6JW')
+('Temperature ', 15.75, '20141126_1741:42', u'6JW')
+('Illuminance ', 3.4, '20141126_1741:44')
+('Temperature ', 15.75, '20141126_1741:45', u'6JW')
+('Temperature ', 15.75, '20141126_1741:45', u'6JW')
+('Temperature ', 15.68, '20141126_1741:48', u'6JW')
+('Temperature ', 15.75, '20141126_1741:48', u'6JW')
+('Illuminance ', 3.4, '20141126_1741:49')
+('Temperature ', 15.68, '20141126_1741:51', u'6JW')
+('Temperature ', 15.75, '20141126_1741:51', u'6JW')
+('Illuminance ', 3.4, '20141126_1741:54')
+('Temperature ', 15.68, '20141126_1741:54', u'6JW')
+('Temperature ', 15.68, '20141126_1741:54', u'6JW')
+('Temperature ', 15.68, '20141126_1741:57', u'6JW')
+('Temperature ', 15.68, '20141126_1741:57', u'6JW')
+('Illuminance ', 3.4, '20141126_1741:59')
+('Temperature ', 15.68, '20141126_1742:00', u'6JW')
+('Temperature ', 15.68, '20141126_1742:00', u'6JW')
+('Temperature ', 15.68, '20141126_1742:03', u'6JW')
+('Temperature ', 15.68, '20141126_1742:03', u'6JW')
+('Illuminance ', 3.4, '20141126_1742:04')
+('Temperature ', 15.68, '20141126_1742:06', u'6JW')
+('Temperature ', 15.68, '20141126_1742:06', u'6JW')
+('Illuminance ', 3.3, '20141126_1742:09')
+('Temperature ', 15.68, '20141126_1742:09', u'6JW')
+('Temperature ', 15.68, '20141126_1742:10', u'6JW')
+('Temperature ', 15.68, '20141126_1742:12', u'6JW')
+('Temperature ', 15.68, '20141126_1742:13', u'6JW')
+('Illuminance ', 3.3, '20141126_1742:14')
+('Temperature ', 15.68, '20141126_1742:15', u'6JW')
+('Temperature ', 15.68, '20141126_1742:16', u'6JW')
+('Temperature ', 15.68, '20141126_1742:18', u'6JW')
+('Temperature ', 15.68, '20141126_1742:19', u'6JW')
+('Illuminance ', 3.3, '20141126_1742:19')
+('Temperature ', 15.68, '20141126_1742:21', u'6JW')
+('Temperature ', 15.68, '20141126_1742:22', u'6JW')
+('Illuminance ', 3.3, '20141126_1742:24')
+('Temperature ', 15.68, '20141126_1742:25', u'6JW')
+('Temperature ', 15.68, '20141126_1742:25', u'6JW')
+('Temperature ', 15.68, '20141126_1742:28', u'6JW')
+('Temperature ', 15.68, '20141126_1742:28', u'6JW')
+('Illuminance ', 3.2, '20141126_1742:29')
+('Temperature ', 15.68, '20141126_1742:31', u'6JW')
+('Temperature ', 15.68, '20141126_1742:31', u'6JW')
+('Temperature ', 15.68, '20141126_1742:34', u'6JW')
+('Temperature ', 15.68, '20141126_1742:34', u'6JW')
+('Illuminance ', 3.2, '20141126_1742:34')
+('Temperature ', 15.68, '20141126_1742:37', u'6JW')
+('Temperature ', 15.68, '20141126_1742:37', u'6JW')
+('Illuminance ', 3.2, '20141126_1742:39')
+('Temperature ', 15.68, '20141126_1742:40', u'6JW')
+('Temperature ', 15.68, '20141126_1742:40', u'6JW')
+('Temperature ', 15.68, '20141126_1742:43', u'6JW')
+('Temperature ', 15.68, '20141126_1742:43', u'6JW')
+('Illuminance ', 3.0, '20141126_1742:44')
+('Temperature ', 15.68, '20141126_1742:46', u'6JW')
+('Temperature ', 15.68, '20141126_1742:46', u'6JW')
+('Temperature ', 15.68, '20141126_1742:49', u'6JW')
+('Temperature ', 15.68, '20141126_1742:49', u'6JW')
+('Illuminance ', 3.0, '20141126_1742:49')
+('Temperature ', 15.68, '20141126_1742:52', u'6JW')
+('Temperature ', 15.68, '20141126_1742:52', u'6JW')
+('Illuminance ', 2.8, '20141126_1742:54')
+('Temperature ', 15.68, '20141126_1742:55', u'6JW')
+('Temperature ', 15.68, '20141126_1742:55', u'6JW')
+('Temperature ', 15.68, '20141126_1742:58', u'6JW')
+('Temperature ', 15.68, '20141126_1742:58', u'6JW')
+('Illuminance ', 3.1, '20141126_1742:59')
+('Temperature ', 15.75, '20141126_1743:01', u'6JW')
+('Temperature ', 15.75, '20141126_1743:01', u'6JW')
+('Temperature ', 15.75, '20141126_1743:04', u'6JW')
+('Temperature ', 15.75, '20141126_1743:04', u'6JW')
+('Illuminance ', 3.1, '20141126_1743:04')
+('Temperature ', 15.75, '20141126_1743:07', u'6JW')
+('Temperature ', 15.75, '20141126_1743:07', u'6JW')
+('Illuminance ', 3.1, '20141126_1743:09')
+('Temperature ', 15.75, '20141126_1743:10', u'6JW')
+('Temperature ', 15.75, '20141126_1743:10', u'6JW')
+('Temperature ', 15.81, '20141126_1743:13', u'6JW')
+('Temperature ', 15.75, '20141126_1743:13', u'6JW')
+('Illuminance ', 3.0, '20141126_1743:14')
+('Temperature ', 15.81, '20141126_1743:16', u'6JW')
+('Temperature ', 15.75, '20141126_1743:16', u'6JW')
+('Temperature ', 15.81, '20141126_1743:19', u'6JW')
+('Temperature ', 15.81, '20141126_1743:19', u'6JW')
+('Illuminance ', 3.0, '20141126_1743:20')
+('Temperature ', 15.81, '20141126_1743:23', u'6JW')
+('Temperature ', 15.81, '20141126_1743:23', u'6JW')
+('Illuminance ', 3.0, '20141126_1743:25')
+('Temperature ', 15.81, '20141126_1743:26', u'6JW')
+('Temperature ', 15.81, '20141126_1743:26', u'6JW')
+('Temperature ', 15.81, '20141126_1743:29', u'6JW')
+('Temperature ', 15.81, '20141126_1743:29', u'6JW')
+('Illuminance ', 3.0, '20141126_1743:30')
+('Temperature ', 15.81, '20141126_1743:32', u'6JW')
+('Temperature ', 15.81, '20141126_1743:32', u'6JW')
+('Illuminance ', 3.0, '20141126_1743:35')
+('Temperature ', 15.87, '20141126_1743:35', u'6JW')
+('Temperature ', 15.87, '20141126_1743:35', u'6JW')
+('Temperature ', 15.87, '20141126_1743:38', u'6JW')
+('Temperature ', 15.87, '20141126_1743:38', u'6JW')
+('Illuminance ', 3.0, '20141126_1743:40')
+('Temperature ', 15.87, '20141126_1743:41', u'6JW')
+('Temperature ', 15.87, '20141126_1743:41', u'6JW')
+('Temperature ', 15.87, '20141126_1743:44', u'6JW')
+('Temperature ', 15.87, '20141126_1743:44', u'6JW')
+('Illuminance ', 3.1, '20141126_1743:45')
+('Temperature ', 15.87, '20141126_1743:47', u'6JW')
+('Temperature ', 15.87, '20141126_1743:47', u'6JW')
+('Illuminance ', 2.8, '20141126_1743:50')
+('Temperature ', 15.87, '20141126_1743:50', u'6JW')
+('Temperature ', 15.87, '20141126_1743:50', u'6JW')
+('Temperature ', 15.87, '20141126_1743:53', u'6JW')
+('Temperature ', 15.87, '20141126_1743:53', u'6JW')
+('Illuminance ', 3.0, '20141126_1743:55')
+('Temperature ', 15.87, '20141126_1743:56', u'6JW')
+('Temperature ', 15.87, '20141126_1743:56', u'6JW')
+('Temperature ', 15.87, '20141126_1743:59', u'6JW')
+('Temperature ', 15.87, '20141126_1743:59', u'6JW')
+('Illuminance ', 3.0, '20141126_1744:00')
+('Temperature ', 15.93, '20141126_1744:02', u'6JW')
+('Temperature ', 15.93, '20141126_1744:02', u'6JW')
+('Illuminance ', 2.9, '20141126_1744:05')
+('Temperature ', 15.93, '20141126_1744:05', u'6JW')
+('Temperature ', 15.93, '20141126_1744:05', u'6JW')
+('Temperature ', 15.93, '20141126_1744:08', u'6JW')
+('Temperature ', 15.93, '20141126_1744:08', u'6JW')
+('Illuminance ', 2.9, '20141126_1744:10')
+('Temperature ', 15.93, '20141126_1744:11', u'6JW')
+('Temperature ', 15.93, '20141126_1744:11', u'6JW')
+('Temperature ', 15.93, '20141126_1744:14', u'6JW')
+('Temperature ', 15.93, '20141126_1744:14', u'6JW')
+('Illuminance ', 2.8, '20141126_1744:15')
+('Temperature ', 15.93, '20141126_1744:17', u'6JW')
+('Temperature ', 15.93, '20141126_1744:17', u'6JW')
+('Illuminance ', 2.8, '20141126_1744:20')
+('Temperature ', 16.0, '20141126_1744:20', u'6JW')
+('Temperature ', 16.0, '20141126_1744:20', u'6JW')
+('Temperature ', 16.0, '20141126_1744:23', u'6JW')
+('Temperature ', 16.0, '20141126_1744:23', u'6JW')
+('Illuminance ', 2.9, '20141126_1744:25')
+('Temperature ', 16.0, '20141126_1744:26', u'6JW')
+('Temperature ', 16.0, '20141126_1744:26', u'6JW')
+('Temperature ', 16.0, '20141126_1744:29', u'6JW')
+('Temperature ', 16.0, '20141126_1744:30', u'6JW')
+('Illuminance ', 2.9, '20141126_1744:30')
+('Temperature ', 16.0, '20141126_1744:33', u'6JW')
+('Temperature ', 16.0, '20141126_1744:33', u'6JW')
+('Illuminance ', 2.1, '20141126_1744:35')
+('Temperature ', 16.0, '20141126_1744:36', u'6JW')
+('Temperature ', 16.0, '20141126_1744:36', u'6JW')
+('Temperature ', 16.06, '20141126_1744:39', u'6JW')
+('Temperature ', 16.0, '20141126_1744:39', u'6JW')
+('Illuminance ', 2.9, '20141126_1744:40')
+('Temperature ', 16.06, '20141126_1744:42', u'6JW')
+('Temperature ', 16.06, '20141126_1744:42', u'6JW')
+('Temperature ', 16.06, '20141126_1744:45', u'6JW')
+('Temperature ', 16.06, '20141126_1744:45', u'6JW')
+('Illuminance ', 2.9, '20141126_1744:45')
+('Temperature ', 16.06, '20141126_1744:48', u'6JW')
+('Temperature ', 16.06, '20141126_1744:48', u'6JW')
+('Illuminance ', 2.9, '20141126_1744:50')
+('Temperature ', 16.06, '20141126_1744:51', u'6JW')
+('Temperature ', 16.06, '20141126_1744:51', u'6JW')
+('Temperature ', 16.06, '20141126_1744:54', u'6JW')
+('Temperature ', 16.06, '20141126_1744:54', u'6JW')
+('Illuminance ', 2.8, '20141126_1744:55')
+('Temperature ', 16.06, '20141126_1744:57', u'6JW')
+('Temperature ', 16.06, '20141126_1744:57', u'6JW')
+('Temperature ', 16.06, '20141126_1745:00', u'6JW')
+('Temperature ', 16.06, '20141126_1745:00', u'6JW')
+('Illuminance ', 2.7, '20141126_1745:00')
+('Temperature ', 16.06, '20141126_1745:03', u'6JW')
+('Temperature ', 16.06, '20141126_1745:03', u'6JW')
+('Illuminance ', 2.9, '20141126_1745:05')
+('Temperature ', 16.06, '20141126_1745:06', u'6JW')
+('Temperature ', 16.06, '20141126_1745:06', u'6JW')
+('Temperature ', 16.06, '20141126_1745:09', u'6JW')
+('Temperature ', 16.06, '20141126_1745:09', u'6JW')
+('Illuminance ', 2.9, '20141126_1745:10')
+('Temperature ', 16.06, '20141126_1745:12', u'6JW')
+('Temperature ', 16.06, '20141126_1745:12', u'6JW')
+('Temperature ', 16.12, '20141126_1745:15', u'6JW')
+('Temperature ', 16.06, '20141126_1745:15', u'6JW')
+('Illuminance ', 2.5, '20141126_1745:16')
+('Temperature ', 16.06, '20141126_1745:18', u'6JW')
+('Temperature ', 16.06, '20141126_1745:18', u'6JW')
+('Illuminance ', 3.0, '20141126_1745:21')
+('Temperature ', 16.06, '20141126_1745:21', u'6JW')
+('Temperature ', 16.06, '20141126_1745:21', u'6JW')
+('Temperature ', 16.12, '20141126_1745:24', u'6JW')
+('Temperature ', 16.12, '20141126_1745:24', u'6JW')
+('Illuminance ', 3.0, '20141126_1745:26')
+('Temperature ', 16.12, '20141126_1745:27', u'6JW')
+('Temperature ', 16.12, '20141126_1745:27', u'6JW')
+('Temperature ', 16.12, '20141126_1745:30', u'6JW')
+('Temperature ', 16.12, '20141126_1745:31', u'6JW')
+('Illuminance ', 3.0, '20141126_1745:31')
+('Temperature ', 16.06, '20141126_1745:34', u'6JW')
+('Temperature ', 16.06, '20141126_1745:34', u'6JW')
+('Illuminance ', 2.8, '20141126_1745:36')
+('Temperature ', 16.12, '20141126_1745:37', u'6JW')
+('Temperature ', 16.12, '20141126_1745:37', u'6JW')
+('Temperature ', 16.12, '20141126_1745:40', u'6JW')
+('Temperature ', 16.12, '20141126_1745:40', u'6JW')
+('Illuminance ', 2.6, '20141126_1745:41')
+('Temperature ', 16.12, '20141126_1745:43', u'6JW')
+('Temperature ', 16.12, '20141126_1745:43', u'6JW')
+('Temperature ', 16.12, '20141126_1745:46', u'6JW')
+('Temperature ', 16.12, '20141126_1745:46', u'6JW')
+('Illuminance ', 3.1, '20141126_1745:46')
+('Temperature ', 16.12, '20141126_1745:49', u'6JW')
+('Temperature ', 16.12, '20141126_1745:49', u'6JW')
+('Illuminance ', 3.2, '20141126_1745:51')
+('Temperature ', 16.12, '20141126_1745:52', u'6JW')
+('Temperature ', 16.12, '20141126_1745:52', u'6JW')
+('Temperature ', 16.12, '20141126_1745:55', u'6JW')
+('Temperature ', 16.12, '20141126_1745:55', u'6JW')
+('Illuminance ', 3.2, '20141126_1745:56')
+('Temperature ', 16.12, '20141126_1745:58', u'6JW')
+('Temperature ', 16.12, '20141126_1745:58', u'6JW')
+('Temperature ', 16.18, '20141126_1746:01', u'6JW')
+('Temperature ', 16.18, '20141126_1746:01', u'6JW')
+('Illuminance ', 2.9, '20141126_1746:01')
+('Temperature ', 16.18, '20141126_1746:04', u'6JW')
+('Temperature ', 16.18, '20141126_1746:04', u'6JW')
+('Illuminance ', 2.7, '20141126_1746:06')
+('Temperature ', 16.18, '20141126_1746:07', u'6JW')
+('Temperature ', 16.18, '20141126_1746:07', u'6JW')
+('Temperature ', 16.18, '20141126_1746:10', u'6JW')
+('Temperature ', 16.18, '20141126_1746:10', u'6JW')
+('Illuminance ', 2.9, '20141126_1746:11')
+('Temperature ', 16.18, '20141126_1746:13', u'6JW')
+('Temperature ', 16.18, '20141126_1746:13', u'6JW')
+('Temperature ', 16.18, '20141126_1746:16', u'6JW')
+('Temperature ', 16.18, '20141126_1746:16', u'6JW')
+('Illuminance ', 3.3, '20141126_1746:16')
+('Temperature ', 16.18, '20141126_1746:19', u'6JW')
+('Temperature ', 16.18, '20141126_1746:19', u'6JW')
+('Illuminance ', 3.3, '20141126_1746:21')
+('Temperature ', 16.18, '20141126_1746:22', u'6JW')
+('Temperature ', 16.18, '20141126_1746:22', u'6JW')
+('Temperature ', 16.18, '20141126_1746:25', u'6JW')
+('Temperature ', 16.18, '20141126_1746:25', u'6JW')
+('Illuminance ', 3.3, '20141126_1746:26')
+('Temperature ', 16.18, '20141126_1746:28', u'6JW')
+('Temperature ', 16.18, '20141126_1746:28', u'6JW')
+('Temperature ', 16.25, '20141126_1746:31', u'6JW')
+('Illuminance ', 3.3, '20141126_1746:31')
+('Temperature ', 16.25, '20141126_1746:31', u'6JW')
+('Temperature ', 16.25, '20141126_1746:34', u'6JW')
+('Temperature ', 16.25, '20141126_1746:34', u'6JW')

@@ -25,16 +25,35 @@ def render_sensors():
     db = logger_manager.db
     query = db['session'].query(db['sensors']).all()
     plots = []
+    # add some counters for the divs
+    nr_cols = 2
+    col = 1
     for item in query:
+        if col == 1:
+            prefix = '<div class="row">'
+        else:
+            prefix = ''
+
         if item.type == 'tf_light':
             plot = plot_funcs.plot_light(db, item)
-            plots.append(plot)
         if item.type == 'tf_temp':
             plot = plot_funcs.plot_temp(db, item)
-            plots.append(plot)
         if item.type == 'tf_moisture':
             plot = plot_funcs.plot_moisture(db, item)
-            plots.append(plot)
+
+        plot = '<div style="width=600px; float:left;">' + plot + '</div>'
+
+        if col == nr_cols:
+            postfix = '</div><br />'
+            col = 1
+        else:
+            postfix = ''
+            col += 1
+
+        plots.append(prefix + plot + postfix)
+    # finish the div
+    if col != 1:
+        plots[-1] += '</div>'
 
     return render_template('sensor_manager.html', sensors=query, plots=plots)
 
