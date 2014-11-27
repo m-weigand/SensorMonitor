@@ -42,7 +42,7 @@ def plot_moisture(db, item):
     sio = cStringIO.StringIO()
     fig.autofmt_xdate()
     fig.savefig(sio, format=format)
-    output_html = '<img src="data:image/png;base64,{0}"/>'.format(
+    output_html = '<img width="600px" src="data:image/png;base64,{0}"/>'.format(
         sio.getvalue().encode("base64").strip())
     return output_html
 
@@ -71,7 +71,7 @@ def plot_temp(db, item):
     sio = cStringIO.StringIO()
     fig.autofmt_xdate()
     fig.savefig(sio, format=format)
-    output_html = '<img width="700px" src="data:image/png;base64,{0}"/>'.format(
+    output_html = '<img width="600px" src="data:image/png;base64,{0}"/>'.format(
         sio.getvalue().encode("base64").strip())
     return output_html
 
@@ -95,6 +95,6 @@ def plot_light(db, item):
     sio = cStringIO.StringIO()
     fig.savefig(sio, format=format)
 
-    output_html = '<img width="700px" src="data:image/png;base64,{0}"/>'.format(
+    output_html = '<img width="600px" src="data:image/png;base64,{0}"/>'.format(
         sio.getvalue().encode("base64").strip())
     return output_html
