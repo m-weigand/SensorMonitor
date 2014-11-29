@@ -22,8 +22,8 @@ if __name__ == '__main__':
           # packages=find_packages(),
           package_dir={'': 'lib'},
           packages=['lib_sensors', ],
-          scripts=['src/sensor_logger/sensor_logger.py',
-                   'src/web_sensor_manager/sensor_manager.py'
+          scripts=['src/sensor_logger/multi_sensor_logger.py',
+                   'src/web_sensor_manager/multi_sensor_manager_web.py'
                    ],
           install_requires=['numpy', 'scipy', 'matplotlib']
           )

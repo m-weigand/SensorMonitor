@@ -3,13 +3,11 @@ import sys
 sys.path.append('../sensor_logger/')
 from flask import Flask
 from flask import render_template
-# from flask import url_for
-from sensor_logger import LoggerManager
-# import lib_sensors.sensors as sensors
 from flask import request
 
+from multi_sensor_logger import LoggerManager
 # import plot_bokeh as plot_funcs
-import plot_mpl as plot_funcs
+import lib_sensors.web.plot_mpl as plot_funcs
 
 app = Flask(__name__)
 app.debug = True

@@ -2,11 +2,14 @@ setup.py
 lib/lib_sensors/__init__.py
 lib/lib_sensors/baselogger.py
 lib/lib_sensors/datelogger.py
+lib/lib_sensors/sensors.py
+lib/lib_sensors/tf_base.py
 lib/lib_sensors/tf_light.py
+lib/lib_sensors/tf_temp.py
 lib/mx_sensor_logger.egg-info/PKG-INFO
 lib/mx_sensor_logger.egg-info/SOURCES.txt
 lib/mx_sensor_logger.egg-info/dependency_links.txt
 lib/mx_sensor_logger.egg-info/requires.txt
 lib/mx_sensor_logger.egg-info/top_level.txt
-src/sensor_logger/sensor_logger.py
-src/web_sensor_manager/sensor_manager.py
+src/sensor_logger/multi_sensor_logger.py
+src/web_sensor_manager/multi_sensor_manager_web.py
