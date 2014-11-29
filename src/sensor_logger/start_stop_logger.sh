@@ -8,7 +8,7 @@ action="$1"
 
 if [ $action == "start" ]; then
     echo "start"
-    ./sensor_logger.py > logfile.log 2>&1 &
+    sensor_logger.py > logfile.log 2>&1 &
     pid=$!
     echo $pid > pid.run
 elif [ $action == "stop" ]; then
