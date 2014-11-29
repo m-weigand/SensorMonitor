@@ -53,7 +53,7 @@ def plot_light(db, item):
     tf_light = sensors.available_loggers['tf_light']
 
     table = tf_light.get_table(db['base'], db['engine'])
-    query = db['session'].query(table).all()
+    query = db['session'].query(table).filter_by(name=item.name).all()
     times = [x.datetime for x in query]
     illuminances = [float(x.value) for x in query]
     y = illuminances
@@ -72,7 +72,7 @@ def plot_moisture(db, item):
     tf_light = sensors.available_loggers['tf_moisture']
 
     table = tf_light.get_table(db['base'], db['engine'])
-    query = db['session'].query(table).all()
+    query = db['session'].query(table).filter_by(name=item.name).all()
     times = [x.datetime for x in query]
     moisture = np.array([float(x.value) for x in query])
 
