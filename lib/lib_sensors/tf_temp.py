@@ -13,7 +13,11 @@ class sensor(tf_base.tf_base):
         """
         Write illuminance to log file
         """
-        temperature = self.temp.get_temperature() / 100.0
+        try:
+            temperature = self.temp.get_temperature() / 100.0
+        except:
+            print('There was an error retrieving the temperature.')
+            return
         time_now = self.get_timestamp()
         print(
             'Temperature ', temperature,

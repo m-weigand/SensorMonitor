@@ -15,7 +15,12 @@ class tf_light(tf_base.tf_base):
         Write illuminance to log file
         """
         # Get current illuminance (unit is Lux/10)
-        illuminance = self.al.get_illuminance() / 10.0
+        try:
+            illuminance = self.al.get_illuminance() / 10.0
+        except:
+            print('There was an error retrieving the illuminance.')
+            return
+
         time_now = self.get_timestamp()
         print(
             'Illuminance ', illuminance,
@@ -49,7 +54,11 @@ class tf_moisture(tf_base.tf_base):
         self.obj = Moisture(self.uid, self.ipcon)
 
     def _get_data(self):
-        moisture = self.obj.get_moisture_value()
+        try:
+            moisture = self.obj.get_moisture_value()
+        except:
+            print('There was an error retrieving the moisture.')
+            return
         time_now = self.get_timestamp()
         print(
             'Moisture ', moisture,
