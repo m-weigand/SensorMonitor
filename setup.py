@@ -21,7 +21,7 @@ if __name__ == '__main__':
           # msi # installer
           # packages=find_packages(),
           package_dir={'': 'lib'},
-          packages=['lib_sensors', ],
+          packages=['lib_sensors', 'lib_sensors/web' ],
           scripts=['src/sensor_logger/multi_sensor_logger.py',
                    'src/web_sensor_manager/multi_sensor_manager_web.py'
                    ],
