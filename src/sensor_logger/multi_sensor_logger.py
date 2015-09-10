@@ -34,7 +34,11 @@ class LoggerManager(threading.Thread):
     def create_database(self):
         """Create/open the database including the sensors table
         """
-        engine = sa.create_engine('sqlite:///sensors.db', echo=False)
+        if 'database' in self.settings:
+            filename = self.settings['database']
+        else:
+            filename = 'sensors.db'
+        engine = sa.create_engine('sqlite:///{0}'.format(filename), echo=False)
         Base = declarative_base(bind=engine)
 
         class sensors(Base):

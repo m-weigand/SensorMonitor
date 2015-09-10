@@ -1,9 +1,12 @@
 #!/usr/bin/python
+import os
 import sys
+from optparse import OptionParser
 sys.path.append('../sensor_logger/')
 from flask import Flask
 from flask import render_template
 from flask import request
+from flask import g
 
 from multi_sensor_logger import LoggerManager
 # import plot_bokeh as plot_funcs
@@ -12,6 +15,24 @@ import lib_sensors.web.plot_mpl as plot_funcs
 app = Flask(__name__)
 app.debug = True
 
+global_settings = {}
+
+
+def handle_cmd_options():
+    parser = OptionParser()
+    parser.add_option("-d", "--database", dest="database",
+                      type='string', help="Database file",
+                      metavar="FILE", default=None)
+
+    (options, args) = parser.parse_args()
+
+    if options.database is None or not os.path.isfile(options.database):
+        print('Need a valid database file! File not found:')
+        print(options.database)
+        exit()
+
+    return options
+
 
 @app.route('/')
 def show_sensors():
@@ -19,7 +40,7 @@ def show_sensors():
 
 
 def render_sensors():
-    logger_manager = LoggerManager({})
+    logger_manager = get_logger_manager()
     db = logger_manager.db
     query = db['session'].query(db['sensors']).all()
     plots = []
@@ -61,9 +82,20 @@ def show_sensor():
     return render_sensors()
 
 
+def get_logger_manager():
+    """Create a logger manager for each request
+    """
+    logger_manager = getattr(g, '_logger_manager', None)
+    if logger_manager is None:
+        logger_manager = LoggerManager(
+            {'database': global_settings['database']})
+        setattr(g, '_logger_manager', logger_manager)
+    return logger_manager
+
+
 @app.route('/add_sensor', methods=['POST', ])
 def add_sensor():
-    logger_manager = LoggerManager({})
+    logger_manager = LoggerManager({'database': global_settings['database']})
     db = logger_manager.db
     name = request.form['name']
     sensor_type = request.form['type']
@@ -118,4 +150,6 @@ def set_log(state):
     return render_sensors()
 
 if __name__ == '__main__':
+    options = handle_cmd_options()
+    global_settings['database'] = options.database
     app.run('0.0.0.0')
