@@ -1,5 +1,10 @@
 import lib_sensors.sensors as sensors
 from flask import url_for
+from bokeh.resources import CDN
+# from bokeh.plotting import circle
+from bokeh.embed import autoload_static
+import bokeh.plotting as bk
+from bokeh.charts import Line
 
 
 def plot_light(db, item):
@@ -14,23 +19,8 @@ def plot_light(db, item):
     # filename_base = str(uuid.uuid4()) + '.png'
     # filename = 'static/' + filename_base
 
-    """
-    fig, ax = plt.subplots(1, 1)
-    ax.set_title(item.name)
-    ax.plot(times, illuminances, '.-')
-    fig.autofmt_xdate()
-
-    fig.savefig(filename)
-    """
-
-    # try bokeh
-    from bokeh.resources import CDN
-    # from bokeh.plotting import circle
-    from bokeh.embed import autoload_static
-    import bokeh.plotting as bk
-
     # plot = circle([1, 2], [3, 4])
-    plot = bk.line(range(0, len(illuminances)), illuminances, line_width=2)
+    plot = Line(range(0, len(illuminances)), illuminances, line_width=2)
 
     x = range(0, len(illuminances))
     y = illuminances

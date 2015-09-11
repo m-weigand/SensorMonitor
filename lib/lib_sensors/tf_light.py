@@ -1,13 +1,15 @@
 import tf_base
-import datetime
 from tinkerforge.bricklet_ambient_light import AmbientLight
-from tinkerforge.bricklet_moisture import Moisture
 import sqlalchemy as sa
+import logging
 
 
 class tf_light(tf_base.tf_base):
     def _create_device_obj(self):
         # Create device object
+        logging.info('Creating TF connection to AmbientLight:')
+        logging.info('  UID: {0} HOST: {1} PORT: {2}'.format(
+            self.uid, self.host, self.port))
         self.al = AmbientLight(self.uid, self.ipcon)
 
     def _get_data(self):
@@ -18,15 +20,18 @@ class tf_light(tf_base.tf_base):
         try:
             illuminance = self.al.get_illuminance() / 10.0
         except:
-            print('There was an error retrieving the illuminance.')
+            logging.info('There was an error retrieving the illuminance.')
             return
 
         time_now = self.get_timestamp()
-        print(
-            'Illuminance ', illuminance,
-            datetime.datetime.now().strftime(r'%Y%m%d_%H%M:%S'))
+
+        logging.info(
+            'illuminance: {0}, datetime: {1}, logger_id: {2}'.format(
+                illuminance,
+                time_now,
+                self.logger_id))
         ins = self.table(value=illuminance,
-                         name=self.name,
+                         logger_id=self.logger_id,
                          datetime=time_now)
 
         self.session.add(ins)
@@ -41,46 +46,8 @@ class tf_light(tf_base.tf_base):
             __table_args__ = {"useexisting": True}
 
             id = sa.Column(sa.types.Integer, primary_key=True)
-            # name should somehow be related to name in sensors
-            name = sa.Column(sa.types.String)
+            # refers to the row id in the sensors-table
+            logger_id = sa.Column(sa.types.Integer)
             value = sa.Column(sa.types.String)
             datetime = sa.Column(sa.types.DateTime)
         return tf_light_table
-
-
-class tf_moisture(tf_base.tf_base):
-    def _create_device_obj(self):
-        # Create device object
-        self.obj = Moisture(self.uid, self.ipcon)
-
-    def _get_data(self):
-        try:
-            moisture = self.obj.get_moisture_value()
-        except:
-            print('There was an error retrieving the moisture.')
-            return
-        time_now = self.get_timestamp()
-        print(
-            'Moisture ', moisture,
-            datetime.datetime.now().strftime(r'%Y%m%d_%H%M:%S'))
-        ins = self.table(value=moisture,
-                         name=self.name,
-                         datetime=time_now)
-
-        self.session.add(ins)
-        self.session.commit()
-
-    @staticmethod
-    def get_table(base, engine):
-        """Create the sensor specific table if it does not exist yet
-        """
-        class tf_moisture_table(base):
-            __tablename__ = 'tf_moisture'
-            __table_args__ = {"useexisting": True}
-
-            id = sa.Column(sa.types.Integer, primary_key=True)
-            # name should somehow be related to name in sensors
-            name = sa.Column(sa.types.String)
-            value = sa.Column(sa.types.String)
-            datetime = sa.Column(sa.types.DateTime)
-        return tf_moisture_table

@@ -1,11 +1,14 @@
 from tinkerforge.bricklet_temperature import Temperature
 import tf_base
 import sqlalchemy as sa
-import datetime
+import logging
 
 
 class sensor(tf_base.tf_base):
     def _create_device_obj(self):
+        logging.info('Creating TF connection to Temperature:')
+        logging.info('  UID: {0} HOST: {1} PORT: {2}'.format(
+            self.uid, self.host, self.port))
         # Create device object
         self.temp = Temperature(self.uid, self.ipcon)
 
@@ -16,15 +19,16 @@ class sensor(tf_base.tf_base):
         try:
             temperature = self.temp.get_temperature() / 100.0
         except:
-            print('There was an error retrieving the temperature.')
+            logging.info('There was an error retrieving the temperature.')
             return
         time_now = self.get_timestamp()
-        print(
-            'Temperature ', temperature,
-            datetime.datetime.now().strftime(r'%Y%m%d_%H%M:%S'),
-            self.uid, self.name)
+        logging.info(
+            'temperature: {0} degrees, datetime: {1}, logger_id: {2}'.format(
+                temperature,
+                time_now,
+                self.logger_id))
         ins = self.table(value=temperature,
-                         name=self.name,
+                         logger_id=self.logger_id,
                          datetime=time_now)
 
         self.session.add(ins)
@@ -41,7 +45,7 @@ class sensor(tf_base.tf_base):
 
             id = sa.Column(sa.types.Integer, primary_key=True)
             # name should somehow be related to name in sensors
-            name = sa.Column(sa.types.String)
+            logger_id = sa.Column(sa.types.Integer)
             value = sa.Column(sa.types.String)
             datetime = sa.Column(sa.types.DateTime)
         return tf_temp_table

@@ -1,10 +1,18 @@
 <!doctype html>
-<title>Sensors</title>
-<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
-<div class=page>
-    <h1>Sensor managager</h1>
-  {% for message in get_flashed_messages() %}
-    <div class=flash>{{ message }}</div>
-  {% endfor %}
-  {% block body %}{% endblock %}
-</div>
+<html>
+<head>
+	<title>Sensors</title>
+	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+	<link rel="stylesheet" href="http://cdn.pydata.org/bokeh/release/bokeh-0.9.3.min.css" type="text/css" />
+	<script type="text/javascript" src="http://cdn.pydata.org/bokeh/release/bokeh-0.9.3.min.js"></script>
+</head>
+<body>
+	<div class=page>
+		<h1>Sensor managager</h1>
+	  {% for message in get_flashed_messages() %}
+		<div class=flash>{{ message }}</div>
+	  {% endfor %}
+	  {% block body %}{% endblock %}
+	</div>
+</body>
+</html>

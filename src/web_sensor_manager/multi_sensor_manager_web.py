@@ -1,16 +1,26 @@
 #!/usr/bin/python
+# *-* coding: utf-8 *-*
+"""
+
+"""
+import logging
 import os
-import sys
+# import sys
 from optparse import OptionParser
-sys.path.append('../sensor_logger/')
+# sys.path.append('../sensor_logger/')
 from flask import Flask
 from flask import render_template
 from flask import request
 from flask import g
 
 from multi_sensor_logger import LoggerManager
-# import plot_bokeh as plot_funcs
-import lib_sensors.web.plot_mpl as plot_funcs
+import lib_sensors.sensors as sensors
+# import lib_sensors.web.plot_bokeh as plot_funcs
+# import lib_sensors.web.plot_mpl as plot_funcs
+#
+
+logging.basicConfig(filename='web.logfile.log',
+                    level=logging.INFO)
 
 app = Flask(__name__)
 app.debug = True
@@ -40,6 +50,7 @@ def show_sensors():
 
 
 def render_sensors():
+    # create a logger manager so we get a database connection
     logger_manager = get_logger_manager()
     db = logger_manager.db
     query = db['session'].query(db['sensors']).all()
@@ -53,14 +64,19 @@ def render_sensors():
         else:
             prefix = ''
 
-        if item.type == 'tf_light':
-            plot = plot_funcs.plot_light(db, item)
-        if item.type == 'tf_temp':
-            plot = plot_funcs.plot_temp(db, item)
-        if item.type == 'tf_moisture':
-            plot = plot_funcs.plot_moisture(db, item)
+        # get a sensor object of this type
+        sensor_class = sensors.available_loggers[item.type]
+        print 'item', item, dir(item), item.name, item.id
+        plot = sensor_class.plot(sensor_class, db, item)
+        # item.plot(db, item)
+        # if item.type == 'tf_light':
+        #     plot = plot_funcs.plot_light(db, item)
+        # if item.type == 'tf_temp':
+        #     plot = plot_funcs.plot_temp(db, item)
+        # if item.type == 'tf_moisture':
+        #     plot = plot_funcs.plot_moisture(db, item)
 
-        plot = '<div style="width=600px; float:left;">' + plot + '</div>'
+        plot = '<div style="width=600px; float:left;">' + plot + '</div><br />'
 
         if col == nr_cols:
             postfix = '</div><br />'
@@ -88,21 +104,24 @@ def get_logger_manager():
     logger_manager = getattr(g, '_logger_manager', None)
     if logger_manager is None:
         logger_manager = LoggerManager(
-            {'database': global_settings['database']})
+            {'database_file': global_settings['database_file'],
+             'interval': None})
         setattr(g, '_logger_manager', logger_manager)
     return logger_manager
 
 
 @app.route('/add_sensor', methods=['POST', ])
 def add_sensor():
-    logger_manager = LoggerManager({'database': global_settings['database']})
+    logger_manager = LoggerManager(
+        {'database_file': global_settings['database_file'],
+         'interval': None})
     db = logger_manager.db
     name = request.form['name']
     sensor_type = request.form['type']
     interval = request.form['interval']
     settings = request.form['settings']
     ins = db['sensors'](type=sensor_type, name=name,
-                        interval=interval, log=True,
+                        interval=interval, status=1,
                         settings=settings)
     db['session'].add(ins)
     db['session'].commit()
@@ -125,13 +144,13 @@ def delete_sensor():
 
 @app.route('/activate_sensor')
 def activate_sensor():
-    set_log(True)
+    set_log(1)
     return render_sensors()
 
 
 @app.route('/deactivate_sensor')
 def deactivate_sensor():
-    set_log(False)
+    set_log(0)
     return render_sensors()
 
 
@@ -143,13 +162,20 @@ def set_log(state):
     query = db['session'].query(db['sensors']).filter_by(
         id=id_to_delete).first()
 
-    query.log = state
+    query.status = state
     # db['session'].update(query).values(log=False)
     db['session'].add(query)
     db['session'].commit()
     return render_sensors()
 
+
+def prepare_directory():
+    if not os.path.isdir('static'):
+        os.makedirs('static')
+
 if __name__ == '__main__':
+    logging.info('Multi sensor logger started')
+    prepare_directory()
     options = handle_cmd_options()
-    global_settings['database'] = options.database
+    global_settings['database_file'] = options.database
     app.run('0.0.0.0')

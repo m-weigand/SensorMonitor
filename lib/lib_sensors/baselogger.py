@@ -1,14 +1,22 @@
 import threading
-import sqlalchemy as sa
+# import sqlalchemy as sa
 import time
 
 
 class BaseLogger(threading.Thread):
-    def __init__(self, db, threadID, name, table, settings):
+    """This class is the building block of all sensor modules, and should be
+    inherited by all sensor classes
+    """
+    def __init__(self, db, threadID, name, logger_id, table, settings):
         """
         Parameters
         ----------
-        db :
+        db:
+        threadID:
+        name:
+        logger_id: id corresponding to the entry in the sensors table
+        table:
+        settings:
         """
         threading.Thread.__init__(self)
         self.lock = threading.Lock()  # use to set the exit flag
@@ -19,6 +27,7 @@ class BaseLogger(threading.Thread):
         self.settings = settings
 
         self.name = name
+        self.logger_id = logger_id
         self.threadID = threadID
         self.reading = None
 
@@ -27,7 +36,6 @@ class BaseLogger(threading.Thread):
 
     def run(self):
         # load settings and create database connection
-        print("Starting " + self.name + "\n")
         self.initialize()
         exitFlag = self._get_exit_flag()
 
@@ -51,7 +59,7 @@ class BaseLogger(threading.Thread):
         return exitFlag
 
     @staticmethod
-    def create_table(self, base, engine):
+    def create_table(base, engine):
         table = BaseLogger.get_table(base, engine)
         base.metadata.create_all(engine)
         return table
@@ -69,12 +77,12 @@ class BaseLogger(threading.Thread):
         """Create the sensor specific table if it does not exist yet
         """
         # example, CHANGE:
-        class date_time(base):
-            __tablename__ = 'datetime'
+        # class date_time(base):
+        #     __tablename__ = 'datetime'
 
-            id = sa.Column(sa.types.Integer, primary_key=True)
-            # name should somehow be related to name in sensors
-            name = sa.Column(sa.types.String)
-            value = sa.Column(sa.types.String)
-            time = sa.Column(sa.types.String)
-        return date_time
+        #     id = sa.Column(sa.types.Integer, primary_key=True)
+        #     # name should somehow be related to name in sensors
+        #     name = sa.Column(sa.types.String)
+        #     value = sa.Column(sa.types.String)
+        #     time = sa.Column(sa.types.String)
+        return None

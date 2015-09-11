@@ -9,6 +9,12 @@ Introduction
 Installation
 ============
 
+Requirements: ::
+
+	pip install tinkerforge
+	apt-get install  python-sqlite sqlite  sqlitebrowser
+
+
 ::
 
     python setup.py install
@@ -23,4 +29,8 @@ Add to .bashrc
 
 Usage
 =====
+
+
+Database structure
+==================
 

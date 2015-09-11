@@ -1,13 +1,26 @@
 import datetime
 import baselogger
 from tinkerforge.ip_connection import IPConnection
+from bokeh.resources import CDN
+# from bokeh.plotting import circle
+# from bokeh.embed import autoload_static
+from bokeh.embed import components
+# import bokeh.plotting as bk
+# from bokeh.charts import Line
+from bokeh.plotting import figure
+# from flask import url_for
 
 
 class tf_base(baselogger.BaseLogger):
     """Base class for all tinkerforge sensors
     """
-    def __init__(self, db, threadID, name, table, settings):
-        baselogger.BaseLogger.__init__(self, db, threadID, name, table,
+    def __init__(self, db, threadID, name, logger_id, table, settings):
+        baselogger.BaseLogger.__init__(self,
+                                       db,
+                                       threadID,
+                                       name,
+                                       logger_id,
+                                       table,
                                        settings)
 
         self.name = name
@@ -41,3 +54,38 @@ class tf_base(baselogger.BaseLogger):
 
     def get_timestamp(self):
         return datetime.datetime.now()
+
+    @staticmethod
+    def plot(cls, db, logger_item):
+        """For a given sensor instance, return a html snippet containing the
+        plot (using bokeh).
+
+        This is only a placeholder!
+
+        Parameters
+        ----------
+        db: database object from sqlalchemy
+        item: table row from the sensors database table describing this
+              specific sensor.
+
+        """
+        table = cls.get_table(db['base'], db['engine'])
+        query = db['session'].query(table).filter_by(
+            logger_id=logger_item.id).all()
+        times = [x.datetime for x in query]
+        values = [float(x.value) for x in query]
+
+        # create the bokeh plot
+        p = figure(plot_width=400, plot_height=400)
+        p.line(times, values)
+        # js, tag = autoload_static(
+        #     p, CDN, url_for('static', filename="plot.js"))
+        script, div = components(p, CDN)
+        output_html = script + div
+
+        # with open('static/plot.js', 'w') as fid:
+        #     fid.write(js)
+
+        # output_html = ''
+        # output_html += tag
+        return output_html
