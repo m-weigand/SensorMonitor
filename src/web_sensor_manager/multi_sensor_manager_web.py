@@ -40,8 +40,8 @@ def handle_cmd_options():
     (options, args) = parser.parse_args()
 
     if options.database is None or not os.path.isfile(options.database):
-        print('Need a valid database file! File not found:')
-        print(options.database)
+        logging.error('Need a valid database file! File not found:')
+        logging.error(options.database)
         exit()
 
     return options
@@ -66,7 +66,6 @@ def show_sensor():
     logger_id = request.args.get('id', None)
     if logger_id is None:
         return redirect(url_for('show_sensors'))
-    print 'logger_id', logger_id
 
     logger_manager = get_logger_manager()
     db = logger_manager.db
