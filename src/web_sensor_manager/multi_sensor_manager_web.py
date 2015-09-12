@@ -13,6 +13,8 @@ from flask import render_template
 from flask import request
 # this is something like a per-request global object
 from flask import g
+from flask import redirect
+from flask import url_for
 
 from multi_sensor_logger import LoggerManager
 import lib_sensors.sensors as sensors
@@ -47,56 +49,33 @@ def handle_cmd_options():
 
 @app.route('/')
 def show_sensors():
-    return render_sensors()
+    return list_sensors()
 
 
-def render_sensors():
+def list_sensors():
     # create a logger manager so we get a database connection
     logger_manager = get_logger_manager()
     db = logger_manager.db
     query = db['session'].query(db['sensors']).all()
-    plots = []
-    # add some counters for the divs
-    nr_cols = 2
-    col = 1
-    for item in query:
-        if col == 1:
-            prefix = '<div class="row">'
-        else:
-            prefix = ''
 
-        # get a sensor object of this type
-        sensor_class = sensors.available_loggers[item.type]
-        print 'item', item, dir(item), item.name, item.id
-        plot = sensor_class.plot(sensor_class, db, item)
-        # item.plot(db, item)
-        # if item.type == 'tf_light':
-        #     plot = plot_funcs.plot_light(db, item)
-        # if item.type == 'tf_temp':
-        #     plot = plot_funcs.plot_temp(db, item)
-        # if item.type == 'tf_moisture':
-        #     plot = plot_funcs.plot_moisture(db, item)
-
-        plot = '<div style="width=600px; float:left;">' + plot + '</div><br />'
-
-        if col == nr_cols:
-            postfix = '</div><br />'
-            col = 1
-        else:
-            postfix = ''
-            col += 1
-
-        plots.append(prefix + plot + postfix)
-    # finish the div
-    if col != 1:
-        plots[-1] += '</div>'
-
-    return render_template('sensor_manager.html', sensors=query, plots=plots)
+    return render_template('sensor_manager.html', sensors=query)
 
 
-@app.route('/show_sensor')
+@app.route('/show_sensor', methods=['GET', ])
 def show_sensor():
-    return render_sensors()
+    logger_id = request.args.get('id', None)
+    if logger_id is None:
+        return redirect(url_for('show_sensors'))
+    print 'logger_id', logger_id
+
+    logger_manager = get_logger_manager()
+    db = logger_manager.db
+    query = db['session'].query(db['sensors']).filter_by(
+        id=logger_id).first()
+    sensor_class = sensors.available_loggers[query.type]
+    plot = sensor_class.plot(sensor_class, db, query)
+
+    return render_template('show_sensor.html', sensor=query, plot_html=plot)
 
 
 def get_logger_manager():
@@ -126,7 +105,7 @@ def add_sensor():
                         settings=settings)
     db['session'].add(ins)
     db['session'].commit()
-    return render_sensors()
+    return redirect(url_for('show_sensors'))
 
 
 @app.route('/delete_sensor')
@@ -140,19 +119,17 @@ def delete_sensor():
 
     db['session'].delete(query)
     db['session'].commit()
-    return render_sensors()
+    return redirect(url_for('show_sensors'))
 
 
 @app.route('/activate_sensor')
 def activate_sensor():
     set_log(1)
-    return render_sensors()
 
 
 @app.route('/deactivate_sensor')
 def deactivate_sensor():
     set_log(0)
-    return render_sensors()
 
 
 def set_log(state):
@@ -167,7 +144,7 @@ def set_log(state):
     # db['session'].update(query).values(log=False)
     db['session'].add(query)
     db['session'].commit()
-    return render_sensors()
+    return redirect(url_for('show_sensors'))
 
 
 def prepare_directory():
