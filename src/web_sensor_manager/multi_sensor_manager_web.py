@@ -124,15 +124,19 @@ def delete_sensor():
 @app.route('/activate_sensor')
 def activate_sensor():
     set_log(1)
+    return redirect(url_for('show_sensors'))
 
 
 @app.route('/deactivate_sensor')
 def deactivate_sensor():
     set_log(0)
+    return redirect(url_for('show_sensors'))
 
 
 def set_log(state):
-    logger_manager = LoggerManager({})
+    logger_manager = LoggerManager(
+        {'database_file': global_settings['database_file'],
+         'interval': None})
     db = logger_manager.db
 
     id_to_delete = request.args.get('id', '', type=int)
@@ -143,7 +147,6 @@ def set_log(state):
     # db['session'].update(query).values(log=False)
     db['session'].add(query)
     db['session'].commit()
-    return redirect(url_for('show_sensors'))
 
 
 def prepare_directory():
