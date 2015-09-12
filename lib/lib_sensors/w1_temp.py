@@ -59,7 +59,7 @@ class w1_temp(baselogger.BaseLogger):
     def get_table(base, engine):
         """Create the sensor specific table if it does not exist yet
         """
-        class date_time(base):
+        class w1_temp_table(base):
             __tablename__ = 'w1_temp'
             __table_args__ = {"useexisting": True}
 
@@ -67,7 +67,7 @@ class w1_temp(baselogger.BaseLogger):
             logger_id = sa.Column(sa.types.Integer)
             value = sa.Column(sa.types.String)
             datetime = sa.Column(sa.types.DateTime)
-        return None
+        return w1_temp_table
 
     @staticmethod
     def plot(cls, db, logger_item):
