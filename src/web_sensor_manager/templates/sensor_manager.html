@@ -14,14 +14,25 @@
     </div>
 
     <ul class=entries>
-        <table>
+        <table class="table table-striped table-hover">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Type</th>
+					<th>Polling interval [s]</th>
+					<th>Status</th>
+					<th>Settings</th>
+				</tr>
+			</thead>
+			<tbody>
             {% for sensor in sensors %}
                 <tr>
                     <td>{{ sensor.name }}</td>
                     <td>{{ sensor.type }}</td>
                     <td>{{ sensor.interval }}</td>
-                    <td>{{ sensor.log }}</td>
-                    {% if sensor.log == True %}
+                    <td>{{ sensor.status }}</td>
+                    <td>{{ sensor.settings }}</td>
+                    {% if sensor.status == 1 %}
                         <td><a href="{{ url_for('deactivate_sensor', id=sensor.id) }}">deactivate</a></td>
                     {% else %}
                         <td><a href="{{ url_for('activate_sensor', id=sensor.id) }}">activate</a></td>
@@ -32,6 +43,7 @@
             {% else %}
                 <li><em>Unbelievable.  No entries here so far</em>
             {% endfor %}
+			</tbody>
         </table>
 
   <br /><br />
