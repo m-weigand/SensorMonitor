@@ -34,6 +34,7 @@ class LoggerManager(threading.Thread):
         threading.Thread.__init__(self)
         self.settings = settings
         self._check_settings()
+        # thread counter: how many loggers/threads have been started yet?
         self.counter = 0
         self.loggers = {}
         self.tables = {}
@@ -210,6 +211,9 @@ def main():
 
 
 if __name__ == '__main__':
+    logging.info('available loggers:')
+    for logger_name in sensor_types.keys():
+        logging.info('  ' + logger_name)
     main()
     # date_setup = DateSetup(db)
     # date_setup.start_loggers()

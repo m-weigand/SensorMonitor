@@ -11,6 +11,7 @@ from optparse import OptionParser
 from flask import Flask
 from flask import render_template
 from flask import request
+# this is something like a per-request global object
 from flask import g
 
 from multi_sensor_logger import LoggerManager

@@ -5,6 +5,11 @@ import logging
 
 
 class sensor(tf_base.tf_base):
+    @staticmethod
+    def description():
+        description = """Tinkerforge temperature sensor"""
+        return description
+
     def _create_device_obj(self):
         logging.info('Creating TF connection to Temperature:')
         logging.info('  UID: {0} HOST: {1} PORT: {2}'.format(
@@ -19,10 +24,10 @@ class sensor(tf_base.tf_base):
         try:
             temperature = self.temp.get_temperature() / 100.0
         except:
-            logging.info('There was an error retrieving the temperature.')
+            logging.error('There was an error retrieving the temperature.')
             return
         time_now = self.get_timestamp()
-        logging.info(
+        logging.debug(
             'temperature: {0} degrees, datetime: {1}, logger_id: {2}'.format(
                 temperature,
                 time_now,

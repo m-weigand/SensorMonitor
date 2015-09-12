@@ -72,11 +72,13 @@ class tf_base(baselogger.BaseLogger):
         table = cls.get_table(db['base'], db['engine'])
         query = db['session'].query(table).filter_by(
             logger_id=logger_item.id).all()
+
+        # 2015-09-11 08:17:35.272359
         times = [x.datetime for x in query]
         values = [float(x.value) for x in query]
 
         # create the bokeh plot
-        p = figure(plot_width=400, plot_height=400)
+        p = figure(plot_width=400, plot_height=400, x_axis_type="datetime")
         p.line(times, values)
         # js, tag = autoload_static(
         #     p, CDN, url_for('static', filename="plot.js"))

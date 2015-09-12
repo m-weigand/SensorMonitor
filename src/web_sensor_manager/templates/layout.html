@@ -3,16 +3,53 @@
 <head>
 	<title>Sensors</title>
 	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+
+	<!-- load Bokeh plot library-->
 	<link rel="stylesheet" href="http://cdn.pydata.org/bokeh/release/bokeh-0.9.3.min.css" type="text/css" />
 	<script type="text/javascript" src="http://cdn.pydata.org/bokeh/release/bokeh-0.9.3.min.js"></script>
+
+	<!-- load jquery javascript framework -->
+	<script src="{{ url_for('static', filename='jquery-2.1.4.min.js') }}"></script>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
 </head>
 <body>
-	<div class=page>
-		<h1>Sensor managager</h1>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed"
+				  data-toggle="collapse" data-target="#navbar"
+				  aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Multi-sensor logger</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+
+      <div class="main_body">
 	  {% for message in get_flashed_messages() %}
 		<div class=flash>{{ message }}</div>
 	  {% endfor %}
 	  {% block body %}{% endblock %}
-	</div>
+      </div>
+
+    </div><!-- /.container -->
+
 </body>
 </html>

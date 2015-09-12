@@ -1,0 +1,10 @@
+Exectute the following command to start the web interface for the example
+database ::
+
+	multi_sensor_manager_web.py -d sensors.db
+
+The web interface is now served on port 5000: ::
+
+	http://localhost:5000
+
+

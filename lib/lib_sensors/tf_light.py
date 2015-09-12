@@ -5,6 +5,11 @@ import logging
 
 
 class tf_light(tf_base.tf_base):
+    @staticmethod
+    def description():
+        description = """Tinkerforge ambient light sensor"""
+        return description
+
     def _create_device_obj(self):
         # Create device object
         logging.info('Creating TF connection to AmbientLight:')
@@ -20,12 +25,12 @@ class tf_light(tf_base.tf_base):
         try:
             illuminance = self.al.get_illuminance() / 10.0
         except:
-            logging.info('There was an error retrieving the illuminance.')
+            logging.error('There was an error retrieving the illuminance.')
             return
 
         time_now = self.get_timestamp()
 
-        logging.info(
+        logging.debug(
             'illuminance: {0}, datetime: {1}, logger_id: {2}'.format(
                 illuminance,
                 time_now,

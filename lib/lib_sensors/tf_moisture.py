@@ -1,7 +1,7 @@
 import tf_base
-import datetime
 from tinkerforge.bricklet_moisture import Moisture
 import sqlalchemy as sa
+import logging
 
 
 class tf_moisture(tf_base.tf_base):
@@ -13,14 +13,13 @@ class tf_moisture(tf_base.tf_base):
         try:
             moisture = self.obj.get_moisture_value()
         except:
-            print('There was an error retrieving the moisture.')
+            logging.error('There was an error retrieving the moisture.')
             return
         time_now = self.get_timestamp()
-        print(
-            'Moisture ', moisture,
-            datetime.datetime.now().strftime(r'%Y%m%d_%H%M:%S'))
+        logging.debug(
+            'moisture: {0} {1}'.format(moisture, time_now))
         ins = self.table(value=moisture,
-                         name=self.name,
+                         logger_id=self.name,
                          datetime=time_now)
 
         self.session.add(ins)
