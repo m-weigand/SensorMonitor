@@ -12,7 +12,9 @@ Installation
 Requirements: ::
 
 	pip install tinkerforge
-	apt-get install  python-sqlite sqlite  sqlitebrowser
+	apt-get install python-sqlite sqlite sqlitebrowser python-sqlalchemy
+	# we use version 0.9.3
+	pip install bokeh --user --upgrade
 
 
 ::

@@ -14,14 +14,7 @@ import time
 import threading
 import lib_sensors.sensors as SL
 sensor_types = SL.available_loggers
-
-# configure the logging module. This configuration is used throughout all
-# modules
-logging.basicConfig(
-    # filename='logfile.log',
-    format='%(asctime)s %(levelname)s {%(module)s} [%(funcName)s] %(message)s',
-    datefmt='%Y-%m-%d,%H:%M:%S',
-    level=logging.INFO)
+from optparse import OptionParser
 
 
 class LoggerManager(threading.Thread):
@@ -191,8 +184,53 @@ class LoggerManager(threading.Thread):
             logger.join()
 
 
+def handle_cmd_options():
+    parser = OptionParser()
+    parser.add_option("--logfile", dest="logfile",
+                      type='string', help="If set, log to file",
+                      metavar="FILE", default=None)
+    parser.add_option("-v", "--debug", action="store_true", dest="debug",
+                      help="Enable debugging output", default=False)
+
+    (options, args) = parser.parse_args()
+
+    return options
+
+
+def setup_logging(options):
+
+    if options.debug:
+        log_level = logging.DEBUG
+    else:
+        log_level = logging.INFO
+
+    additional_config = {}
+    if options.logfile is not None:
+        additional_config['filename'] = options.logfile
+
+    # configure the logging module. this configuration is used throughout all
+    # modules
+    log_format = '%(asctime)s %(levelname)s {%(module)s} ' + \
+        '[%(funcName)s] %(message)s'
+    logging.basicConfig(
+        # filename='logfile.log',
+        format=log_format,
+        datefmt='%Y-%m-%d,%H:%M:%S',
+        level=log_level,
+        **additional_config
+    )
+
+    logging.info('Log level: {0}'.format(logging.getLevelName(log_level)))
+    logging.info('Log format: {0}'.format(log_format))
+
+
 def main():
+    options = handle_cmd_options()
+    setup_logging(options)
     logging.info('Multi-sensor logger started')
+    logging.info('available loggers:')
+    for logger_name in sensor_types.keys():
+        logging.info('  ' + logger_name)
     # ?
     settings = {'interval': 10,
                 'database_file': 'sensors.db'
@@ -211,9 +249,6 @@ def main():
 
 
 if __name__ == '__main__':
-    logging.info('available loggers:')
-    for logger_name in sensor_types.keys():
-        logging.info('  ' + logger_name)
     main()
     # date_setup = DateSetup(db)
     # date_setup.start_loggers()

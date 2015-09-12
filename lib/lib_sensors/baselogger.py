@@ -2,6 +2,7 @@ import threading
 # import sqlalchemy as sa
 import time
 import abc
+import datetime
 
 
 class BaseLogger(threading.Thread):
@@ -102,3 +103,6 @@ class BaseLogger(threading.Thread):
     @abc.abstractmethod
     def plot(cls, db, logger_item):
         pass
+
+    def get_timestamp(self):
+        return datetime.datetime.now()

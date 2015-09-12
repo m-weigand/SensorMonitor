@@ -1,4 +1,3 @@
-import datetime
 import baselogger
 from tinkerforge.ip_connection import IPConnection
 from bokeh.resources import CDN
@@ -51,9 +50,6 @@ class tf_base(baselogger.BaseLogger):
 
     def _disconnect(self):
         self.ipcon.disconnect()
-
-    def get_timestamp(self):
-        return datetime.datetime.now()
 
     @staticmethod
     def plot(cls, db, logger_item):
