@@ -4,3 +4,4 @@ build/
 dist/
 lib/mx_sensor_logger.egg-info/
 lib/*.egg-info
+Example*/web.logfile.log
