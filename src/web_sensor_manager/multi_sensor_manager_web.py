@@ -3,14 +3,18 @@
 """
 
 """
+import datetime
 import logging
 import os
+import pandas as pd
+import StringIO
 # import sys
 from optparse import OptionParser
 # sys.path.append('../sensor_logger/')
 from flask import Flask
 from flask import render_template
 from flask import request
+from flask import send_file
 # this is something like a per-request global object
 from flask import g
 from flask import redirect
@@ -22,8 +26,9 @@ import lib_sensors.sensors as sensors
 # import lib_sensors.web.plot_mpl as plot_funcs
 #
 
-logging.basicConfig(filename='web.logfile.log',
-                    level=logging.INFO)
+logging.basicConfig(level=logging.INFO,
+                    # filename='web.logfile.log',
+                    )
 
 app = Flask(__name__)
 app.debug = True
@@ -114,11 +119,43 @@ def delete_sensor():
 
     id_to_delete = request.args.get('id', '', type=int)
     query = db['session'].query(db['sensors']).filter_by(
-        id=id_to_delete).first()
+        id=id_to_delete).one()
 
     db['session'].delete(query)
     db['session'].commit()
     return redirect(url_for('show_sensors'))
+
+
+@app.route('/export_to_csv', methods=['GET', ])
+def export_sensor_to_csv():
+    sensor_id = request.args.get('id', None, type=int)
+    if sensor_id is None:
+        # TODO: Show error message
+        return redirect(url_for('show_sensors'))
+
+    # create a logger manager so we get a database connection
+    logger_manager = get_logger_manager()
+    db = logger_manager.db
+    query = db['session'].query(db['sensors']).filter_by(
+        id=sensor_id).one()
+    sensor_class = sensors.available_loggers[query.type]
+    sensor_table = sensor_class.get_table(db['base'], db['engine'])
+    query = db['session'].query(sensor_table)
+
+    # create a DateFrame
+    df = pd.read_sql(query.statement, db['engine']).set_index('id')
+    # save to CSV file in memory
+    csv_in_memory = StringIO.StringIO()
+    df.to_csv(csv_in_memory)
+    csv_in_memory.seek(0)  # rewind
+
+    filename = '{0}_data_{1}.csv'.format(
+        datetime.datetime.now(),
+        sensor_table.__tablename__)
+
+    return send_file(csv_in_memory,
+                     as_attachment=True,
+                     attachment_filename=filename)
 
 
 @app.route('/activate_sensor')

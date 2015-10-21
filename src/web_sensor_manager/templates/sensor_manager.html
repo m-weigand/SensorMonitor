@@ -39,9 +39,10 @@
                     {% endif %}
                     <td><a href="{{ url_for('show_sensor', id=sensor.id) }}">view data</a></td>
                     <td><a href="{{ url_for('delete_sensor', id=sensor.id) }}">delete</a></td>
+                    <td><a href="{{ url_for('export_sensor_to_csv', id=sensor.id) }}">export to csv</a></td>
                 </tr>
             {% else %}
-                <li><em>Unbelievable.  No entries here so far</em>
+                <li><em>Unbelievable. No entries here so far</em>
             {% endfor %}
 			</tbody>
         </table>
