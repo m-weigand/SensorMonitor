@@ -37,7 +37,8 @@ if __name__ == '__main__':
                     'lib_sensors/web',
                     'lib_multi_sensor'],
           scripts=['src/sensor_logger/multi_sensor_logger.py',
-                   'src/web_sensor_manager/multi_sensor_manager_web.py'
+                   'src/web_sensor_manager/multi_sensor_manager_web.py',
+                   'InitScript/start_multi_sens_web.sh',
                    ],
           install_requires=['numpy', 'scipy', 'matplotlib']
           )
