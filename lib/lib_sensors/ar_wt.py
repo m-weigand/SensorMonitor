@@ -1,6 +1,7 @@
 """
 Arduino water table logger
 """
+import serial
 import baselogger
 import logging
 import sqlalchemy as sa
@@ -22,32 +23,28 @@ class arduino_wt(baselogger.BaseLogger):
                                        logger_id,
                                        table,
                                        settings)
-        basepath = '/sys/bus/w1/devices/'
-        self.filename = basepath + settings + '/w1_slave'
+        self.device = '/dev/ttyUSB0'
+
+        # http://stackoverflow.com/questions/23025021/how-would-i-add-the-timezone-to-a-datetime-datetime-object#23025048
+        self.ser = serial.Serial(self.device, 9600)
 
     def _get_data(self):
         """Query the logger and store a measurement in the table. No return
         values.
         """
-        with open(self.filename, 'r') as fid:
-            # we are not interested in the first line
-            fid.readline()
-            # second line
-            line = fid.readline().strip()
-            # the temperature is written in milli-degrees in the form
-            # t=23456, but preceeded by a large HEX data dump in the form
-            # 2c 00 4b 46 ff ff 0e 10 17 t=21875
-            index = line.find('t=') + 2
-            temperature = int(line[index:index + 6]) / 1e3
+        dataline = self.ser.readline().strip()
+        last_delim = dataline.rfind('%')
+        second_to_last_delim = dataline.rfind('%', 0, last_delim) + 1
+        data = dataline[second_to_last_delim: last_delim].split(',')
         time_now = self.get_timestamp()
 
         logging.debug(
-            'w1_temp: {0}, datetime: {1}, logger_id: {2}'.format(
-                temperature,
+            'ar_wt: {0}, datetime: {1}, logger_id: {2}'.format(
+                data,
                 time_now,
                 self.logger_id))
 
-        ins = self.table(value=temperature,
+        ins = self.table(value=data,
                          logger_id=self.logger_id,
                          datetime=time_now)
 
@@ -58,16 +55,16 @@ class arduino_wt(baselogger.BaseLogger):
     def get_table(base, engine):
         """Create the sensor specific table if it does not exist yet
         """
-        class w1_temp_table(base):
-            __tablename__ = 'w1_temp'
+        class ar_wt_table(base):
+            __tablename__ = 'ar_wt'
             __table_args__ = {"useexisting": True}
 
             id = sa.Column(sa.types.Integer, primary_key=True)
             logger_id = sa.Column(sa.types.Integer)
             value = sa.Column(sa.types.String)
             datetime = sa.Column(sa.types.DateTime)
-        return w1_temp_table
+        return ar_wt_table
 
     @staticmethod
     def plot(cls, db, logger_item):
-        return 'Plot not implented for w1_temp'
+        return 'Plot not implented for ar_wt'
