@@ -36,6 +36,8 @@ class arduino_wt(baselogger.BaseLogger):
         last_delim = dataline.rfind('%')
         second_to_last_delim = dataline.rfind('%', 0, last_delim) + 1
         data = dataline[second_to_last_delim: last_delim].split(',')
+        temperature = data[0]
+        water_table = data[1]
         time_now = self.get_timestamp()
 
         logging.debug(
@@ -44,7 +46,8 @@ class arduino_wt(baselogger.BaseLogger):
                 time_now,
                 self.logger_id))
 
-        ins = self.table(value=data,
+        ins = self.table(value=water_table,
+                         value1=temperature,
                          logger_id=self.logger_id,
                          datetime=time_now)
 
@@ -62,6 +65,7 @@ class arduino_wt(baselogger.BaseLogger):
             id = sa.Column(sa.types.Integer, primary_key=True)
             logger_id = sa.Column(sa.types.Integer)
             value = sa.Column(sa.types.String)
+            value1 = sa.Column(sa.types.String)
             datetime = sa.Column(sa.types.DateTime)
         return ar_wt_table
 
