@@ -112,16 +112,9 @@ def app_pages(app):
             id=sensor_id).one()
         sensor_class = sensors.available_loggers[query.type]
         sensor_table = sensor_class.get_table(db['base'], db['engine'])
-        print 'sensor_table', sensor_table
         query = db['session'].query(sensor_table)
-
-        sql = query.statement
-        print 'SQL', sql
-
-        print 'BB', db['engine'].has_table('tf_temp')
-        print '@@', db['engine'].has_table(sql)
         # create a DateFrame
-        df = pd.read_sql(query.statement, db['engine'])
+        df = pd.read_sql_query(query.statement, db['engine'])
         df = df.set_index('id')
         # save to CSV file in memory
         csv_in_memory = StringIO.StringIO()
