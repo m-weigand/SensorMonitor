@@ -20,7 +20,7 @@
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
 DESC="Multi sensor manager"
 NAME=multi_sensor_manager
-DAEMON=/home/mweigand/Projekte/SensorMonitor/InitScript/start_web.sh
+DAEMON=/usr/local/bin/start_multi_sens_web.sh
 DAEMON_ARGS=""
 PIDFILE=/var/run/$NAME.pid
 SCRIPTNAME=/etc/init.d/$NAME
