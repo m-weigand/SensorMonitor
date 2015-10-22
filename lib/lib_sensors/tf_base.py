@@ -74,7 +74,7 @@ class tf_base(baselogger.BaseLogger):
         values = [float(x.value) for x in query]
 
         # create the bokeh plot
-        p = figure(plot_width=400, plot_height=400, x_axis_type="datetime")
+        p = figure(plot_width=800, plot_height=600, x_axis_type="datetime")
         p.line(times, values)
         # js, tag = autoload_static(
         #     p, CDN, url_for('static', filename="plot.js"))

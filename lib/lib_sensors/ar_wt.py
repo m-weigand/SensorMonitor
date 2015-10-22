@@ -5,6 +5,9 @@ import serial
 import baselogger
 import logging
 import sqlalchemy as sa
+from bokeh.resources import CDN
+from bokeh.embed import components
+from bokeh.plotting import figure
 
 
 class arduino_wt(baselogger.BaseLogger):
@@ -71,4 +74,25 @@ class arduino_wt(baselogger.BaseLogger):
 
     @staticmethod
     def plot(cls, db, logger_item):
-        return 'Plot not implented for ar_wt'
+        table = cls.get_table(db['base'], db['engine'])
+        query = db['session'].query(table).filter_by(
+            logger_id=logger_item.id).all()
+
+        # 2015-09-11 08:17:35.272359
+        times = [x.datetime for x in query]
+        values = [float(x.value) for x in query]
+
+        # create the bokeh plot
+        p = figure(plot_width=800, plot_height=600, x_axis_type="datetime")
+        p.line(times, values)
+        # js, tag = autoload_static(
+        #     p, CDN, url_for('static', filename="plot.js"))
+        script, div = components(p, CDN)
+        output_html = script + div
+
+        # with open('static/plot.js', 'w') as fid:
+        #     fid.write(js)
+
+        # output_html = ''
+        # output_html += tag
+        return output_html
