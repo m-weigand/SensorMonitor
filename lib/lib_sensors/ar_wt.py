@@ -28,13 +28,12 @@ class arduino_wt(baselogger.BaseLogger):
                                        settings)
         self.device = '/dev/ttyUSB0'
 
-        # http://stackoverflow.com/questions/23025021/how-would-i-add-the-timezone-to-a-datetime-datetime-object#23025048
-        self.ser = serial.Serial(self.device, 9600)
-
     def _get_data(self):
         """Query the logger and store a measurement in the table. No return
         values.
         """
+        # http://stackoverflow.com/questions/23025021/how-would-i-add-the-timezone-to-a-datetime-datetime-object#23025048
+        self.ser = serial.Serial(self.device, 9600)
         dataline = self.ser.readline().strip()
         last_delim = dataline.rfind('%')
         second_to_last_delim = dataline.rfind('%', 0, last_delim) + 1
@@ -56,6 +55,7 @@ class arduino_wt(baselogger.BaseLogger):
 
         self.session.add(ins)
         self.session.commit()
+        self.ser.close()
 
     @staticmethod
     def get_table(base, engine):
