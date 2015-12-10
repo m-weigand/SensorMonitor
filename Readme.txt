@@ -3,7 +3,7 @@ Introduction
 
 * sensor_logger: This is the deamon that periodically logs data from a number
                  of sensors
-* web_sensor_manager: This is a web application which provides simple
+* multi_sensor_manager_web.py: This is a web application which provides simple
                       representations of the logged data.
 
 Installation

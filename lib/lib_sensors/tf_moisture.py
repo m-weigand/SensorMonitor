@@ -1,3 +1,5 @@
+# *-* coding: utf-8 *-*
+import sys
 import tf_base
 from tinkerforge.bricklet_moisture import Moisture
 import sqlalchemy as sa
@@ -11,9 +13,12 @@ class tf_moisture(tf_base.tf_base):
 
     def _get_data(self):
         try:
-            moisture = self.obj.get_moisture_value()
+            # unit: relative humidity (RHL) [%]
+            moisture = self.obj.get_moisture_value() / 10.0
         except:
             logging.error('There was an error retrieving the moisture.')
+            e = sys.exc_info()[0]
+            logging.error('Exception: {0}'.format(e))
             return
         time_now = self.get_timestamp()
         logging.debug(

@@ -1,3 +1,4 @@
+import sys
 from tinkerforge.bricklet_temperature import Temperature
 import tf_base
 import sqlalchemy as sa
@@ -25,6 +26,8 @@ class sensor(tf_base.tf_base):
             temperature = self.temp.get_temperature() / 100.0
         except:
             logging.error('There was an error retrieving the temperature.')
+            e = sys.exc_info()[0]
+            logging.error('Exception: {0}'.format(e))
             return
         time_now = self.get_timestamp()
         logging.debug(

@@ -1,6 +1,7 @@
 """advertise available logger modules
 """
 import datelogger
+import tf_barometer
 import tf_light
 import tf_temp
 import tf_moisture
@@ -10,6 +11,7 @@ import ar_wt
 available_loggers = {}
 
 available_loggers['datetime'] = datelogger.DateLogger
+available_loggers['tf_barometer'] = tf_barometer.tf_barometer
 available_loggers['tf_light'] = tf_light.tf_light
 available_loggers['tf_temp'] = tf_temp.sensor
 available_loggers['tf_moisture'] = tf_moisture.tf_moisture

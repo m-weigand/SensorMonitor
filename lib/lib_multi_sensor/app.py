@@ -30,12 +30,31 @@ logging.basicConfig(level=logging.INFO,
 def app_pages(app):
 
     def list_sensors():
+        # generate a list of available loggers
+        avail_sensors = []
+        for key, item in sensors.available_loggers.iteritems():
+            avail_sensors.append(
+                (key, item.description())
+            )
+
         # create a logger manager so we get a database connection
         logger_manager = get_logger_manager()
         db = logger_manager.db
         query = db['session'].query(db['sensors']).all()
 
-        return render_template('sensor_manager.html', sensors=query)
+        results = []
+        for sensor in query:
+            sensor_class = sensors.available_loggers[sensor.type]
+            table = sensor_class.get_table(db['base'], db['engine'])
+            query2 = db['session'].query(table).order_by(
+                table.id.desc()).first()
+            results.append((sensor, query2))
+
+        return render_template(
+            'sensor_manager.html',
+            avail_sensors=avail_sensors,
+            sensors=results
+        )
 
     @app.route('/')
     def show_sensors():
