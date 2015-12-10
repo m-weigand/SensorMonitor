@@ -16,10 +16,11 @@
 					<th></th>
 					<th>last reading</th>
 					<th>value</th>
+					<th>nr data points</th>
 				</tr>
 			</thead>
 			<tbody>
-            {% for sensor, result in sensors %}
+            {% for sensor, result, nr_data_points in sensors %}
                 <tr>
                     <td>{{ sensor.name }}</td>
                     <td>{{ sensor.type }}</td>
@@ -36,6 +37,7 @@
                     <td><a href="{{ url_for('export_sensor_to_csv', id=sensor.id) }}">export to csv</a></td>
 					<td>{{result.datetime}}</td>
 					<td>{{result.value}}</td>
+					<td>{{nr_data_points}}</td>
                 </tr>
             {% else %}
                 <li><em>Unbelievable. No entries here so far</em>
