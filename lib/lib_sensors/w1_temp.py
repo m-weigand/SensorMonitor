@@ -8,6 +8,12 @@ import sqlalchemy as sa
 
 
 class w1_temp(baselogger.BaseLogger):
+    @staticmethod
+    def description():
+        description = """DS1820 sensor connected directly to the Pi
+        (setting example: 10-000802dab26e)"""
+        return description
+
     def __init__(self, db, threadID, name, logger_id, table, settings):
         """
 
