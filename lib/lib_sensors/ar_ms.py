@@ -1,5 +1,5 @@
 """
-Arduino water table logger
+Arduino multi-sensor logger
 """
 import serial
 import baselogger
@@ -10,11 +10,11 @@ from bokeh.embed import components
 from bokeh.plotting import figure
 
 
-class arduino_wt(baselogger.BaseLogger):
+class arduino_multi_sensor(baselogger.BaseLogger):
     @staticmethod
     def description():
-        description = """Water table sensor via Arduino
-        (setting example: NA)"""
+        description = """Multi-sensor logger via Arduino
+        (setting example: /dev/ttyUSB0)"""
         return description
 
     def __init__(self, db, threadID, name, logger_id, table, settings):
@@ -22,7 +22,7 @@ class arduino_wt(baselogger.BaseLogger):
 
         Parameters
         ----------
-        settings: Identifier of the 1-wire sensor to read out
+        settings: Device to read
 
         """
         baselogger.BaseLogger.__init__(self,
@@ -32,7 +32,7 @@ class arduino_wt(baselogger.BaseLogger):
                                        logger_id,
                                        table,
                                        settings)
-        self.device = '/dev/ttyUSB0'
+        self.device = settings
 
     def _get_data(self):
         """Query the logger and store a measurement in the table. No return
@@ -49,7 +49,7 @@ class arduino_wt(baselogger.BaseLogger):
         time_now = self.get_timestamp()
 
         logging.debug(
-            'ar_wt: {0}, datetime: {1}, logger_id: {2}'.format(
+            'ar_ms: {0}, datetime: {1}, logger_id: {2}'.format(
                 data,
                 time_now,
                 self.logger_id))
@@ -67,8 +67,8 @@ class arduino_wt(baselogger.BaseLogger):
     def get_table(base, engine):
         """Create the sensor specific table if it does not exist yet
         """
-        class ar_wt_table(base):
-            __tablename__ = 'ar_wt'
+        class ar_ms_table(base):
+            __tablename__ = 'ar_ms'
             __table_args__ = {"useexisting": True}
 
             id = sa.Column(sa.types.Integer, primary_key=True)
@@ -76,7 +76,7 @@ class arduino_wt(baselogger.BaseLogger):
             value = sa.Column(sa.types.String)
             value1 = sa.Column(sa.types.String)
             datetime = sa.Column(sa.types.DateTime)
-        return ar_wt_table
+        return ar_ms_table
 
     @staticmethod
     def plot(cls, db, logger_item):

@@ -47,10 +47,12 @@ def app_pages(app):
             sensor_class = sensors.available_loggers[sensor.type]
             table = sensor_class.get_table(db['base'], db['engine'])
             # TODO: hmm, I think we need to filter by sensor id
-            query2 = db['session'].query(table).order_by(
+            query2 = db['session'].query(table).filter_by(
+                logger_id=sensor.id).order_by(
                 table.id.desc()).first()
 
-            total_nr = db['session'].query(table.id).count()
+            total_nr = db['session'].query(table.id).filter_by(
+                logger_id=sensor.id).count()
             print('COUNT: ', total_nr)
             results.append((sensor, query2, total_nr))
 
