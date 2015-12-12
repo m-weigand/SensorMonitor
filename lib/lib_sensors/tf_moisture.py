@@ -24,7 +24,7 @@ class tf_moisture(tf_base.tf_base):
         logging.debug(
             'moisture: {0} {1}'.format(moisture, time_now))
         ins = self.table(value=moisture,
-                         logger_id=self.name,
+                         logger_id=self.logger_id,
                          datetime=time_now)
 
         self.session.add(ins)
