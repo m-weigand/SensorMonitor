@@ -46,15 +46,21 @@ def app_pages(app):
         for sensor in query:
             sensor_class = sensors.available_loggers[sensor.type]
             table = sensor_class.get_table(db['base'], db['engine'])
-            # TODO: hmm, I think we need to filter by sensor id
-            query2 = db['session'].query(table).filter_by(
+
+            query_last_entry = db['session'].query(table).filter_by(
                 logger_id=sensor.id).order_by(
                 table.id.desc()).first()
 
+            query_first_entry = db['session'].query(table).filter_by(
+                logger_id=sensor.id).order_by(
+                table.id.asc()).first()
+
             total_nr = db['session'].query(table.id).filter_by(
                 logger_id=sensor.id).count()
+
             print('COUNT: ', total_nr)
-            results.append((sensor, query2, total_nr))
+            results.append((sensor, query_first_entry,
+                            query_last_entry, total_nr))
 
         return render_template(
             'sensor_manager.html',
@@ -126,6 +132,9 @@ def app_pages(app):
     @app.route('/export_to_csv', methods=['GET', ])
     def export_sensor_to_csv():
         sensor_id = request.args.get('id', None, type=int)
+        dt = request.args.get('dt', None)
+        dt2 = request.args.get('datetime_1', None)
+        print('DATETIME', dt, dt2)
         nr_data_points = request.args.get('nr_datapoints', None, type=int)
 
         if sensor_id is None:

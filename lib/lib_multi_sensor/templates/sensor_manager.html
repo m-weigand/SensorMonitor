@@ -14,13 +14,14 @@
 					<th></th>
 					<th></th>
 					<th></th>
+					<th>first reading</th>
 					<th>last reading</th>
 					<th>value</th>
 					<th>nr data points</th>
 				</tr>
 			</thead>
 			<tbody>
-            {% for sensor, result, nr_data_points in sensors %}
+            {% for sensor, first_result, last_result, nr_data_points in sensors %}
                 <tr>
                     <td>{{ sensor.name }}</td>
                     <td>{{ sensor.type }}</td>
@@ -34,9 +35,28 @@
                     {% endif %}
                     <td><a href="{{ url_for('show_sensor', id=sensor.id) }}">view data</a></td>
                     <td><a href="{{ url_for('delete_sensor', id=sensor.id) }}">delete</a></td>
-                    <td><a href="{{ url_for('export_sensor_to_csv', id=sensor.id) }}">export to csv</a></td>
-					<td>{{result.datetime}}</td>
-					<td>{{result.value}}</td>
+					<td>
+						<form action="export_to_csv">
+							<input type="hidden" name="id" value="{{sensor.id}}" />
+							<a href="{{ url_for('export_sensor_to_csv', id=sensor.id) }}">export to csv</a>
+							<input name="dt" id="datetimepicker_{{sensor.id}}" type="text" >
+							<input class="button" value="Export to CSV" type="submit" />
+						</form>
+					</td>
+
+				</td>
+					<script>
+						$.datetimepicker.setLocale('en');
+						$('#datetimepicker_{{sensor.id}}').datetimepicker({
+							value:'2015/04/15 05:03',
+							// startDate:'2015/04/14',
+							// interval [minutes]
+							step:60,
+						});
+					</script>
+					<td>{{first_result.datetime}}</td>
+					<td>{{last_result.datetime}}</td>
+					<td>{{last_result.value}}</td>
 					<td>{{nr_data_points}}</td>
                 </tr>
             {% else %}

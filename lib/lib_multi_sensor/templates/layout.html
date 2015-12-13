@@ -11,6 +11,13 @@
 	<!-- load jquery javascript framework -->
 	<script src="{{ url_for('static', filename='jquery-2.1.4.min.js') }}"></script>
 
+
+	<!-- this should go after your </body> -->
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='datetimepicker/jquery.datetimepicker.css') }}" />
+	<!-- <script src="/jquery.js"></script> -->
+	<!-- <script src="{{ url_for('static', filename='datetimepicker/jquery.js') }}"></script> -->
+	<script src="{{ url_for('static', filename='datetimepicker/build/jquery.datetimepicker.full.js') }}"></script>
+
     <!-- Bootstrap core CSS -->
     <link href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
@@ -40,6 +47,29 @@
       </div>
     </nav>
 
+		<!-- <input type="text" value="" id="datetimepicker"/><br><br> -->
+		<!-- <script> -->
+			<!-- $.datetimepicker.setLocale('en'); -->
+
+			<!-- /* -->
+			<!-- $('#datetimepicker_format').datetimepicker({value:'2015/04/15 05:03', format: $("#datetimepicker_format_value").val()}); -->
+			<!-- $("#datetimepicker_format_change").on("click", function(e){ -->
+			<!-- 		$("#datetimepicker_format").data('xdsoft_datetimepicker').setOptions({format: $("#datetimepicker_format_value").val()}); -->
+			<!-- }); -->
+			<!-- $("#datetimepicker_format_locale").on("change", function(e){ -->
+			<!-- 		$.datetimepicker.setLocale($(e.currentTarget).val()); -->
+			<!-- }); -->
+
+			<!-- $('#datetimepicker').datetimepicker({ -->
+			<!-- 	dayOfWeekStart : 1, -->
+			<!-- 	lang:'en', -->
+			<!-- 	disabledDates:['1986/01/08','1986/01/09','1986/01/10'], -->
+			<!-- startDate:	'1986/01/05' -->
+			<!-- }); -->
+			<!-- */ -->
+			<!-- //$('#datetimepicker').datetimepicker({value:'2015/04/15 05:03',step:10}); -->
+
+		<!-- </script> -->
     <div class="container">
 
       <div class="main_body">
