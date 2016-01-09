@@ -1,0 +1,12 @@
+Source: mx-sensor-logger
+Maintainer: Maximilian Weigand <mweigand@geo.uni-bonn.de>
+Section: python
+Priority: optional
+Build-Depends: python-setuptools (>= 0.6b3), python-all (>= 2.6.6-3), debhelper (>= 9)
+Standards-Version: 3.9.1
+
+Package: python-mx-sensor-logger
+Architecture: all
+Depends: ${misc:Depends}, ${python:Depends}
+Description: General sensor logger
+
