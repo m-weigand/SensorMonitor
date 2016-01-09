@@ -58,7 +58,6 @@ def app_pages(app):
             total_nr = db['session'].query(table.id).filter_by(
                 logger_id=sensor.id).count()
 
-            print('COUNT: ', total_nr)
             results.append((sensor, query_first_entry,
                             query_last_entry, total_nr))
 
@@ -87,6 +86,36 @@ def app_pages(app):
 
         return render_template(
             'show_sensor.html', sensor=query, plot_html=plot)
+
+    @app.route('/update_sensor', methods=['POST', ])
+    def update_sensor():
+        logger_manager = get_logger_manager()
+        db = logger_manager.db
+        query = db['session'].query(db['sensors']).filter_by(
+            id=request.form['id']).one()
+
+        query.name = request.form['name']
+        query.sensor_type = request.form['type']
+        query.interval = request.form['interval']
+        query.settings = request.form['settings']
+
+        db['session'].add(query)
+        db['session'].commit()
+
+        return redirect(url_for('show_sensors'))
+
+    @app.route('/show_update_sensor', methods=['GET', ])
+    def show_update_sensor():
+        logger_id = request.args.get('id', None)
+        if logger_id is None:
+            return redirect(url_for('show_sensors'))
+
+        logger_manager = get_logger_manager()
+        db = logger_manager.db
+        query = db['session'].query(db['sensors']).filter_by(
+            id=logger_id).first()
+        return render_template(
+            'update_sensor.html', sensor=query)
 
     @app.route('/add_sensor', methods=['POST', ])
     def add_sensor():

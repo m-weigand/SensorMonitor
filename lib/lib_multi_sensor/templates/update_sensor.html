@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block body %}
+    <div class="sensor">
+        <form action="{{ url_for('update_sensor') }}" method="post" class=add-entry>
+			<input type="hidden" name="id" value="{{ sensor.id }}">
+			name:<input type=text size=30 name="name" value="{{ sensor.name }}">
+			type:<input type=text size=30 name="type" value="{{ sensor.type }}">
+			interval:<input type=text size=4 name="interval" value="{{sensor.interval}}">
+			settings:<input type=text size=40 name="settings" value="{{sensor.settings}}">
+            <input type=submit value="update sensor">
+        </form>
+    </div>
+
+{% endblock %}
