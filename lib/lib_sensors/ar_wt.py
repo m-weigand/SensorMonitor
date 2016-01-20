@@ -38,7 +38,7 @@ class arduino_wt(baselogger.BaseLogger):
         """Retain only numbers from 0-9, and the character '.'
         """
         character_list = [46, ] + range(48, 58)
-        clean_str = ''.join([x for x in str if ord in character_list])
+        clean_str = ''.join([x for x in str if ord(x) in character_list])
         return clean_str
 
     def _get_data(self):
@@ -70,8 +70,10 @@ class arduino_wt(baselogger.BaseLogger):
             time_now = self.get_timestamp()
 
             logging.debug(
-                'ar_wt: {0}, datetime: {1}, logger_id: {2}'.format(
+                'ar_wt: {0}, T: {1}, WT: {2}, datetime: {3}, logger_id: {4}'.format(
                     data,
+		    temperature,
+		    water_table,
                     time_now,
                     self.logger_id))
 
