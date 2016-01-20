@@ -34,34 +34,59 @@ class arduino_wt(baselogger.BaseLogger):
                                        settings)
         self.device = '/dev/ttyUSB0'
 
+    def _strip_characters(self, str):
+        """Retain only numbers from 0-9, and the character '.'
+        """
+        character_list = [46, ] + range(48, 58)
+        clean_str = ''.join([x for x in str if ord in character_list])
+        return clean_str
+
     def _get_data(self):
         """Query the logger and store a measurement in the table. No return
         values.
         """
         # http://stackoverflow.com/questions/23025021/how-would-i-add-the-timezone-to-a-datetime-datetime-object#23025048
-        self.ser = serial.Serial(self.device, 9600)
-        dataline = self.ser.readline().strip()
-        last_delim = dataline.rfind('%')
-        second_to_last_delim = dataline.rfind('%', 0, last_delim) + 1
-        data = dataline[second_to_last_delim: last_delim].split(',')
-        temperature = data[0]
-        water_table = data[1]
-        time_now = self.get_timestamp()
+        try:
+            self.ser = serial.Serial(self.device, 9600, timeout=20)
+        except serial.SerialException as e:
+            logging.error('Could not open serial device')
+            logging.error(e)
 
-        logging.debug(
-            'ar_wt: {0}, datetime: {1}, logger_id: {2}'.format(
-                data,
-                time_now,
-                self.logger_id))
+        try:
+            dataline = self.ser.readline().strip()
+            last_delim = dataline.rfind('%')
+            second_to_last_delim = dataline.rfind('%', 0, last_delim) + 1
+            data = dataline[second_to_last_delim: last_delim].split(',')
+            try:
+                temperature = self._strip_characters(data[0])
+                water_table = self._strip_characters(data[1])
+            except Exception as e:
+                print('Caught exception while reading temperature and ' +
+                      'water table')
+                print(e)
+                temperature = 'NaN'
+                water_table = 'NaN'
 
-        ins = self.table(value=water_table,
-                         value1=temperature,
-                         logger_id=self.logger_id,
-                         datetime=time_now)
+            time_now = self.get_timestamp()
 
-        self.session.add(ins)
-        self.session.commit()
-        self.ser.close()
+            logging.debug(
+                'ar_wt: {0}, datetime: {1}, logger_id: {2}'.format(
+                    data,
+                    time_now,
+                    self.logger_id))
+
+            ins = self.table(value=water_table,
+                             value1=temperature,
+                             logger_id=self.logger_id,
+                             datetime=time_now)
+
+            self.session.add(ins)
+            self.session.commit()
+        except Exception as e:
+            logging.error('Exception in ar_wt:')
+            logging.error(e)
+
+            self.ser.close()
 
     @staticmethod
     def get_table(base, engine):
