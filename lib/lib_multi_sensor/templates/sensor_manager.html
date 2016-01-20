@@ -30,13 +30,13 @@
                     <td>{{ sensor.status }}</td>
                     <td>{{ sensor.settings }}</td>
                     {% if sensor.status == 1 %}
-                        <td><a href="{{ url_for('deactivate_sensor', id=sensor.id) }}">deactivate</a></td>
+                        <!-- <td><a href="{{ url_for('deactivate_sensor', id=sensor.id) }}">deactivate</a></td> -->
                     {% else %}
-                        <td><a href="{{ url_for('activate_sensor', id=sensor.id) }}">activate</a></td>
+                        <!-- <td><a href="{{ url_for('activate_sensor', id=sensor.id) }}">activate</a></td> -->
                     {% endif %}
                     <td><a href="{{ url_for('show_sensor', id=sensor.id) }}">view data</a></td>
                     <td><a href="{{ url_for('show_update_sensor', id=sensor.id) }}">update settings</a></td>
-                    <td><a href="{{ url_for('delete_sensor', id=sensor.id) }}">delete</a></td>
+                    <!-- <td><a href="{{ url_for('delete_sensor', id=sensor.id) }}">delete</a></td> -->
 					<td>
 						<form action="export_to_csv">
 							<input type="hidden" name="id" value="{{sensor.id}}" />
