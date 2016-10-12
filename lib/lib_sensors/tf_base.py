@@ -8,7 +8,7 @@ from bokeh.embed import components
 # from bokeh.charts import Line
 from bokeh.plotting import figure
 # from flask import url_for
-import numpy as np
+# import numpy as np
 
 
 class tf_base(baselogger.BaseLogger):
@@ -73,12 +73,6 @@ class tf_base(baselogger.BaseLogger):
         # 2015-09-11 08:17:35.272359
         times = [x.datetime for x in query]
         values = [float(x.value) for x in query]
-
-        times = times[-1000:]
-        values = values[-1000:]
-
-        indices = np.linspace(0, len(times), 1000)
-        print('INDICES', indices)
 
         # create the bokeh plot
         p = figure(plot_width=800, plot_height=600, x_axis_type="datetime")
