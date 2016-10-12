@@ -1,6 +1,6 @@
 import sys
 from tinkerforge.bricklet_temperature import Temperature
-import tf_base
+import lib_sensors.tf_base as tf_base
 import sqlalchemy as sa
 import logging
 

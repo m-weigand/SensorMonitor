@@ -1,5 +1,5 @@
 import sys
-import tf_base
+import lib_sensors.tf_base as tf_base
 from tinkerforge.bricklet_barometer import BrickletBarometer
 import sqlalchemy as sa
 import logging

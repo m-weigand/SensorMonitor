@@ -14,7 +14,7 @@ while(True):
 
 	output = '{0} UTC - {1}'.format(date, ';'.join(data))
 
-	print output
+	print(output)
 	with open('water_table.txt', 'a') as fid:
 		fid.write(output + '\n')
 

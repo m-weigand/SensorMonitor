@@ -74,7 +74,7 @@ class LoggerManager(threading.Thread):
         Base.metadata.create_all(engine)
 
         # loop through available logger and create empty tables
-        for sensor_name, sensor_class in sensor_types.iteritems():
+        for sensor_name, sensor_class in sensor_types.items():
             self.tables[sensor_name] = sensor_class.get_table(Base, engine)
 
         # create a scoped session for use with the Threads

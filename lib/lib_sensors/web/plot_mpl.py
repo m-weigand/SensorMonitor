@@ -49,7 +49,7 @@ def _plot_ts_to_html(data):
 
 
 def plot_light(db, item):
-    print 'plotting tf light'
+    print('plotting tf light')
     tf_light = sensors.available_loggers['tf_light']
 
     table = tf_light.get_table(db['base'], db['engine'])
@@ -68,7 +68,7 @@ def plot_light(db, item):
 
 
 def plot_moisture(db, item):
-    print 'plotting tf moisture'
+    print('plotting tf moisture')
     tf_light = sensors.available_loggers['tf_moisture']
 
     table = tf_light.get_table(db['base'], db['engine'])
@@ -89,7 +89,7 @@ def plot_moisture(db, item):
 
 
 def plot_temp(db, item):
-    print 'plotting tf temp'
+    print('plotting tf temp')
     tf_light = sensors.available_loggers['tf_temp']
 
     table = tf_light.get_table(db['base'], db['engine'])

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import baselogger
+import lib_sensors.baselogger as baselogger
 import sqlalchemy as sa
 import datetime
 
@@ -15,7 +15,7 @@ class DateLogger(baselogger.BaseLogger):
 
         self.session.add(ins)
         self.session.commit()
-        print output
+        print(output)
 
     @staticmethod
     def get_table(base, engine):

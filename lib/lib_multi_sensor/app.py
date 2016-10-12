@@ -6,7 +6,7 @@
 import datetime
 import logging
 import pandas as pd
-import StringIO
+from io import StringIO
 from flask import Flask
 from flask import render_template
 from flask import request
@@ -32,7 +32,7 @@ def app_pages(app):
     def list_sensors():
         # generate a list of available loggers
         avail_sensors = []
-        for key, item in sensors.available_loggers.iteritems():
+        for key, item in sensors.available_loggers.items():
             avail_sensors.append(
                 (key, item.description())
             )

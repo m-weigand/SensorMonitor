@@ -2,7 +2,7 @@
 Arduino multi-sensor logger
 """
 import serial
-import baselogger
+import lib_sensors.baselogger as baselogger
 import logging
 import sqlalchemy as sa
 from bokeh.resources import CDN

@@ -1,6 +1,6 @@
 # *-* coding: utf-8 *-*
 import sys
-import tf_base
+import lib_sensors.tf_base as tf_base
 from tinkerforge.bricklet_moisture import Moisture
 import sqlalchemy as sa
 import logging

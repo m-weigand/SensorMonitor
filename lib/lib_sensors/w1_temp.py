@@ -2,7 +2,7 @@
 Implement a one-wire logger module to read out temperature sensors attached to
 the computer, and exposed via /sys/bus/w1
 """
-import baselogger
+import lib_sensors.baselogger as baselogger
 import logging
 import sqlalchemy as sa
 

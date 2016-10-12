@@ -8,7 +8,7 @@ from bokeh.charts import Line
 
 
 def plot_light(db, item):
-    print 'plotting tf light'
+    print('plotting tf light')
     tf_light = sensors.available_loggers['tf_light']
 
     table = tf_light.get_table(db['base'], db['engine'])
@@ -25,7 +25,6 @@ def plot_light(db, item):
     x = range(0, len(illuminances))
     y = illuminances
     # print 'x', x
-    print len(x), len(y)
     # xs = [0, 1, 2, 3, 4, 5]
     # ys = [x**2 for x in xs]
     plot = bk.line(times, y, line_width=2, x_axis_type="datetime")
